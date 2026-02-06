@@ -52,12 +52,7 @@ const Index = () => {
             </div>
           </div>
 
-          <div className="mt-24 grid md:grid-cols-3 gap-8 fade-up delay-400">
-            {highlights.map((item, index) => <div key={index} className="space-y-2 text-center md:text-left">
-                <p className="font-serif text-3xl">{item.stat}</p>
-                <p className="text-sm text-muted-foreground">{item.label}</p>
-              </div>)}
-          </div>
+          
         </div>
       </section>
 
