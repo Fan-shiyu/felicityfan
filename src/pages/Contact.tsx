@@ -185,7 +185,7 @@ const Contact = () => {
               </a>
               
               <a
-                href="https://github.com/felicityfan"
+                href="https://github.com/Fan-shiyu"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -198,7 +198,7 @@ const Contact = () => {
               </a>
               
               <a
-                href="mailto:hello@felicityfan.com"
+                href="mailto:sfan289@aucklanduni.ac.nz"
                 className="group flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Email"
               >

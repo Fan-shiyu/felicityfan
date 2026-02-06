@@ -22,7 +22,7 @@ const Footer = () => {
               LinkedIn
             </a>
             <a
-              href="mailto:hello@felicityfan.com"
+              href="mailto:sfan289@aucklanduni.ac.nz"
               className="hover:text-foreground transition-colors"
             >
               Email
