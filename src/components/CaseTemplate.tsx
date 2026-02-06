@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Github } from "lucide-react";
 
 export interface CaseData {
   slug: string;
   title: string;
   descriptor: string;
+  github?: string;
   situation: string;
   task: string[];
   approach: string[];
@@ -35,6 +36,17 @@ const CaseTemplate = ({ caseData }: CaseTemplateProps) => {
           <p className="mt-4 text-lg text-muted-foreground fade-up delay-100">
             {caseData.descriptor}
           </p>
+          {caseData.github && (
+            <a
+              href={caseData.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 mt-4 text-sm text-muted-foreground hover:text-foreground transition-colors fade-up delay-100"
+            >
+              <Github className="w-4 h-4" />
+              View on GitHub
+            </a>
+          )}
         </header>
 
         <div className="space-y-16 fade-up delay-200">
