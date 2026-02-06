@@ -67,32 +67,24 @@ const Index = () => {
             </p>
           </header>
 
-          <div className="space-y-4 fade-up delay-200">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 fade-up delay-200">
             {caseCards.map(caseItem => (
               <Link
                 key={caseItem.slug}
                 to={`/cases/${caseItem.slug}`}
-                className="group block p-6 md:p-8 bg-card border border-border hover:border-muted-foreground/40 transition-all duration-300"
+                className="group block p-5 bg-card border border-border hover:border-muted-foreground/40 transition-all duration-300"
               >
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                  <div className="flex-1 space-y-3">
-                    <div className="flex items-center gap-3">
-                      <h3 className="font-serif text-xl md:text-2xl group-hover:text-accent transition-colors">
-                        {caseItem.title}
-                      </h3>
-                      <ArrowRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-                    </div>
-                    <p className="text-muted-foreground">
-                      {caseItem.description}
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {caseItem.tags.map((tag, tagIndex) => (
+                <h3 className="font-serif text-lg group-hover:text-accent transition-colors leading-snug">
+                  {caseItem.title}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
+                  {caseItem.description}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {caseItem.tags.slice(0, 2).map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
-                      className="px-3 py-1 text-xs bg-secondary text-secondary-foreground rounded-full"
+                      className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full"
                     >
                       {tag}
                     </span>
@@ -115,32 +107,36 @@ const Index = () => {
             </p>
           </header>
 
-          <div className="space-y-4 fade-up delay-200">
-            {projects.map(project => <Link key={project.slug} to={`/projects/${project.slug}`} className="group block p-6 md:p-8 bg-card border border-border hover:border-muted-foreground/40 transition-all duration-300">
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                  <div className="flex-1 space-y-3">
-                    <div className="flex items-center gap-3">
-                      <h3 className="font-serif text-xl md:text-2xl group-hover:text-accent transition-colors">
-                        {project.title}
-                      </h3>
-                      <ArrowRight className="w-5 h-5 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-                    </div>
-                    <p className="text-muted-foreground">
-                      {project.description}
-                    </p>
-                  </div>
-                  
-                  <div className="text-sm text-muted-foreground md:text-right flex-shrink-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 fade-up delay-200">
+            {projects.map(project => (
+              <Link
+                key={project.slug}
+                to={`/projects/${project.slug}`}
+                className="group block p-5 bg-card border border-border hover:border-muted-foreground/40 transition-all duration-300"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="font-serif text-lg group-hover:text-accent transition-colors leading-snug">
+                    {project.title}
+                  </h3>
+                  <span className="text-xs text-muted-foreground flex-shrink-0">
                     {project.status}
-                  </div>
+                  </span>
                 </div>
-                
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {project.tags.map((tag, tagIndex) => <span key={tagIndex} className="px-3 py-1 text-xs bg-secondary text-secondary-foreground rounded-full">
+                <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
+                  {project.description}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {project.tags.slice(0, 2).map((tag, tagIndex) => (
+                    <span
+                      key={tagIndex}
+                      className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full"
+                    >
                       {tag}
-                    </span>)}
+                    </span>
+                  ))}
                 </div>
-              </Link>)}
+              </Link>
+            ))}
           </div>
         </div>
       </section>
