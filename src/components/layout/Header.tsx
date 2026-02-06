@@ -88,13 +88,7 @@ const Header = () => {
     >
       <nav className="container-narrow">
         <div className="flex items-center justify-between h-20">
-          <a
-            href="#home"
-            onClick={(e) => handleNavClick({ id: "home", label: "Home" }, e)}
-            className="font-serif text-xl tracking-tight hover:text-accent transition-colors"
-          >
-            FF
-          </a>
+          <div className="w-8" /> {/* Spacer for balance */}
           
           <ul className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
