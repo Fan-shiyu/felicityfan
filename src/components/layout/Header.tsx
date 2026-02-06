@@ -1,29 +1,82 @@
-import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const navItems = [
-  { path: "/", label: "Home" },
-  { path: "/cases", label: "Company Cases" },
-  { path: "/projects", label: "Side Projects" },
+  { id: "home", label: "Home" },
+  { id: "cases", label: "Company Cases" },
+  { id: "projects", label: "Side Projects" },
   { path: "/activities", label: "Professional Activities" },
-  { path: "/contact", label: "Contact" },
+  { id: "contact", label: "Contact" },
 ];
 
 const Header = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
+
+      // Only track sections on homepage
+      if (location.pathname === "/") {
+        const sections = ["home", "cases", "projects", "contact"];
+        const scrollPosition = window.scrollY + 100;
+
+        for (const sectionId of sections.reverse()) {
+          const element = document.getElementById(sectionId);
+          if (element && element.offsetTop <= scrollPosition) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
+      }
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  // Reset to top when navigating to a new page (not hash navigation)
+  useEffect(() => {
+    if (!location.hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [location.pathname]);
+
+  const handleNavClick = (item: typeof navItems[0], e: React.MouseEvent) => {
+    if (item.path) {
+      // Regular page navigation
+      return;
+    }
+
+    e.preventDefault();
+    
+    if (location.pathname !== "/") {
+      // Navigate to homepage then scroll
+      navigate("/");
+      setTimeout(() => {
+        const element = document.getElementById(item.id!);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      // Just scroll on homepage
+      const element = document.getElementById(item.id!);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  const isActive = (item: typeof navItems[0]) => {
+    if (item.path) {
+      return location.pathname === item.path;
+    }
+    return location.pathname === "/" && activeSection === item.id;
+  };
 
   return (
     <header
@@ -35,46 +88,71 @@ const Header = () => {
     >
       <nav className="container-narrow">
         <div className="flex items-center justify-between h-20">
-          <NavLink
-            to="/"
+          <a
+            href="#home"
+            onClick={(e) => handleNavClick({ id: "home", label: "Home" }, e)}
             className="font-serif text-xl tracking-tight hover:text-accent transition-colors"
           >
             FF
-          </NavLink>
+          </a>
           
           <ul className="hidden md:flex items-center gap-8">
             {navItems.map((item) => (
-              <li key={item.path}>
-                <NavLink
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `text-sm font-medium tracking-wide transition-colors ${
-                      isActive
+              <li key={item.id || item.path}>
+                {item.path ? (
+                  <NavLink
+                    to={item.path}
+                    className={({ isActive: routeActive }) =>
+                      `text-sm font-medium tracking-wide transition-colors ${
+                        routeActive
+                          ? "text-foreground"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                ) : (
+                  <a
+                    href={`#${item.id}`}
+                    onClick={(e) => handleNavClick(item, e)}
+                    className={`text-sm font-medium tracking-wide transition-colors ${
+                      isActive(item)
                         ? "text-foreground"
                         : "text-muted-foreground hover:text-foreground"
-                    }`
-                  }
-                >
-                  {item.label}
-                </NavLink>
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>
 
-          <MobileNav />
+          <MobileNav handleNavClick={handleNavClick} isActive={isActive} />
         </div>
       </nav>
     </header>
   );
 };
 
-const MobileNav = () => {
+interface MobileNavProps {
+  handleNavClick: (item: typeof navItems[0], e: React.MouseEvent) => void;
+  isActive: (item: typeof navItems[0]) => boolean;
+}
+
+const MobileNav = ({ handleNavClick, isActive }: MobileNavProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     setIsOpen(false);
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
+
+  const handleMobileNavClick = (item: typeof navItems[0], e: React.MouseEvent) => {
+    setIsOpen(false);
+    handleNavClick(item, e);
+  };
 
   return (
     <div className="md:hidden">
@@ -101,19 +179,33 @@ const MobileNav = () => {
         <div className="absolute top-20 left-0 right-0 bg-background border-b border-border">
           <ul className="container-narrow py-6 space-y-4">
             {navItems.map((item) => (
-              <li key={item.path}>
-                <NavLink
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `block text-lg transition-colors ${
-                      isActive
+              <li key={item.id || item.path}>
+                {item.path ? (
+                  <NavLink
+                    to={item.path}
+                    className={({ isActive: routeActive }) =>
+                      `block text-lg transition-colors ${
+                        routeActive
+                          ? "text-foreground"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                ) : (
+                  <a
+                    href={`#${item.id}`}
+                    onClick={(e) => handleMobileNavClick(item, e)}
+                    className={`block text-lg transition-colors ${
+                      isActive(item)
                         ? "text-foreground"
                         : "text-muted-foreground hover:text-foreground"
-                    }`
-                  }
-                >
-                  {item.label}
-                </NavLink>
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                )}
               </li>
             ))}
           </ul>
