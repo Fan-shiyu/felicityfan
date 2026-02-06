@@ -6,9 +6,9 @@ const Footer = () => {
       <div className="container-narrow py-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div>
-            <p className="font-serif text-lg">John Doe</p>
+            <p className="font-serif text-lg">Felicity Fan</p>
             <p className="text-sm text-muted-foreground mt-1">
-              Strategy & Digital Transformation
+              AI & Data Consultant
             </p>
           </div>
           
@@ -22,7 +22,7 @@ const Footer = () => {
               LinkedIn
             </a>
             <a
-              href="mailto:hello@johndoe.com"
+              href="mailto:hello@felicityfan.com"
               className="hover:text-foreground transition-colors"
             >
               Email
@@ -32,7 +32,7 @@ const Footer = () => {
         
         <div className="mt-8 pt-8 border-t border-border">
           <p className="text-xs text-muted-foreground">
-            © {currentYear} John Doe. All rights reserved.
+            © {currentYear} Felicity Fan. All rights reserved.
           </p>
         </div>
       </div>
