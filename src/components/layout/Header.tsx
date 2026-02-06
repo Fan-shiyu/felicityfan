@@ -39,7 +39,7 @@ const Header = () => {
             to="/"
             className="font-serif text-xl tracking-tight hover:text-accent transition-colors"
           >
-            JD
+            FF
           </NavLink>
           
           <ul className="hidden md:flex items-center gap-8">
