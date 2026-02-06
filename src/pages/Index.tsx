@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight, Linkedin, Github, Mail } from "lucide-react";
 import { z } from "zod";
 import profilePhoto from "@/assets/profile-photo.png";
-import { cases } from "./Cases";
+import { caseCards } from "@/data/cases";
 import { projects } from "./Projects";
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
@@ -68,7 +68,12 @@ const Index = () => {
           </header>
 
           <div className="space-y-4 fade-up delay-200">
-            {cases.map(caseItem => <Link key={caseItem.slug} to={`/cases/${caseItem.slug}`} className="group block p-6 md:p-8 bg-card border border-border hover:border-muted-foreground/40 transition-all duration-300">
+            {caseCards.map(caseItem => (
+              <Link
+                key={caseItem.slug}
+                to={`/cases/${caseItem.slug}`}
+                className="group block p-6 md:p-8 bg-card border border-border hover:border-muted-foreground/40 transition-all duration-300"
+              >
                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                   <div className="flex-1 space-y-3">
                     <div className="flex items-center gap-3">
@@ -84,11 +89,17 @@ const Index = () => {
                 </div>
                 
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {caseItem.tags.map((tag, tagIndex) => <span key={tagIndex} className="px-3 py-1 text-xs bg-secondary text-secondary-foreground rounded-full">
+                  {caseItem.tags.map((tag, tagIndex) => (
+                    <span
+                      key={tagIndex}
+                      className="px-3 py-1 text-xs bg-secondary text-secondary-foreground rounded-full"
+                    >
                       {tag}
-                    </span>)}
+                    </span>
+                  ))}
                 </div>
-              </Link>)}
+              </Link>
+            ))}
           </div>
         </div>
       </section>
