@@ -9,7 +9,7 @@ const Home = () => {
         <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-16">
           {/* Profile Photo */}
           <div className="flex-shrink-0 fade-up">
-            <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-secondary shadow-lg">
+            <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden">
               <img
                 src={profilePhoto}
                 alt="Felicity Fan"
