@@ -6,6 +6,7 @@ export interface CaseData {
   title: string;
   descriptor: string;
   github?: string;
+  demo?: string;
   situation: string;
   task: string[];
   approach: string[];
@@ -36,16 +37,31 @@ const CaseTemplate = ({ caseData }: CaseTemplateProps) => {
           <p className="mt-4 text-lg text-muted-foreground fade-up delay-100">
             {caseData.descriptor}
           </p>
-          {caseData.github && (
-            <a
-              href={caseData.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 mt-4 text-sm text-muted-foreground hover:text-foreground transition-colors fade-up delay-100"
-            >
-              <Github className="w-4 h-4" />
-              View on GitHub
-            </a>
+          {(caseData.github || caseData.demo) && (
+            <div className="flex flex-wrap gap-4 mt-4 fade-up delay-100">
+              {caseData.github && (
+                <a
+                  href={caseData.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <Github className="w-4 h-4" />
+                  View on GitHub
+                </a>
+              )}
+              {caseData.demo && (
+                <a
+                  href={caseData.demo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <span className="w-4 h-4 flex items-center justify-center">▶</span>
+                  Watch Demo
+                </a>
+              )}
+            </div>
           )}
         </header>
 
