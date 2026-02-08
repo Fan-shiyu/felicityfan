@@ -102,11 +102,11 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
       {hasImages && (
         <div className={`space-y-4 ${reverse ? 'md:[direction:ltr]' : ''}`}>
           {activity.images.length === 1 ? (
-            <div className="aspect-square bg-muted overflow-hidden rounded-lg">
+            <div className="overflow-hidden rounded-lg">
               <img
                 src={activity.images[0]}
                 alt={activity.title}
-                className="w-full h-full object-cover"
+                className="w-full h-auto object-cover"
               />
             </div>
           ) : (
