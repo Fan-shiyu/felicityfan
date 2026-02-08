@@ -23,7 +23,7 @@ export const activities: Activity[] = [
     title: "PyData Eindhoven 2025 — Conference Moderation & Organization",
     description: "Co-organizer and co-moderator of PyData Eindhoven 2025, contributing to the planning and delivery of a large-scale data and AI conference over several months of preparation. During the event, I co-moderated multiple technical sessions, introducing speakers and their topics, managing time and session flow, and facilitating audience Q&A. This role required clear communication, real-time coordination, and the ability to maintain an engaging and professional atmosphere for both speakers and attendees.",
     images: [pydataModerating, pydataStage],
-    layout: "vertical",
+    layout: "horizontal",
   },
 ];
 
@@ -110,13 +110,13 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
               />
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-4">
               {activity.images.map((image, idx) => (
-                <div key={idx} className="aspect-square bg-muted overflow-hidden rounded-lg">
+                <div key={idx} className="overflow-hidden rounded-lg">
                   <img
                     src={image}
                     alt={`${activity.title} ${idx + 1}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-auto object-contain"
                   />
                 </div>
               ))}
