@@ -1,3 +1,5 @@
+import toastmastersTeam from "@/assets/toastmasters-team.png";
+
 export interface Activity {
   id: string;
   title: string;
@@ -7,34 +9,10 @@ export interface Activity {
 
 export const activities: Activity[] = [
   {
-    id: "speaking",
-    title: "Conference Speaking",
-    description: "Sharing insights on AI strategy, digital transformation, and data-driven decision making at industry conferences and executive forums. Recent engagements include keynotes on responsible AI adoption and workshops on building analytics capabilities.",
-    images: [],
-  },
-  {
-    id: "mentoring",
-    title: "Mentoring & Coaching",
-    description: "Supporting the next generation of data professionals through formal mentoring programs and informal coaching. Focused on helping early-career consultants and data scientists navigate career transitions and develop leadership skills.",
-    images: [],
-  },
-  {
-    id: "writing",
-    title: "Writing & Publications",
-    description: "Contributing articles and thought leadership pieces on emerging trends in AI/ML, analytics strategy, and digital transformation. Published in industry journals and business publications reaching practitioner and executive audiences.",
-    images: [],
-  },
-  {
-    id: "community",
-    title: "Community Leadership",
-    description: "Active involvement in professional communities including organizing local data science meetups, contributing to open-source projects, and participating in industry working groups focused on ethical AI standards.",
-    images: [],
-  },
-  {
-    id: "advisory",
-    title: "Advisory & Board Roles",
-    description: "Serving as advisor and board member for startups and non-profits at the intersection of technology and social impact. Providing strategic guidance on data strategy, product development, and scaling operations.",
-    images: [],
+    id: "toastmasters",
+    title: "Toastmasters Den Bosch — Communication & Leadership Development",
+    description: "Active member and former board member of Toastmasters Den Bosch. I deliver prepared speeches and structured evaluations, and have served on the club board to support meeting facilitation and member development. Through this role, I continuously strengthen my communication, presentation, and leadership skills—essential for stakeholder engagement and executive-level storytelling.",
+    images: [toastmastersTeam],
   },
 ];
 
@@ -78,7 +56,7 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
       {hasImages && (
         <div className={`space-y-4 ${reverse ? 'md:[direction:ltr]' : ''}`}>
           {activity.images.length === 1 ? (
-            <div className="aspect-[4/3] bg-muted overflow-hidden">
+            <div className="aspect-square bg-muted overflow-hidden rounded-lg">
               <img
                 src={activity.images[0]}
                 alt={activity.title}
