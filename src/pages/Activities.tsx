@@ -110,13 +110,13 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
               />
             </div>
           ) : (
-            <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
               {activity.images.map((image, idx) => (
                 <div key={idx} className="overflow-hidden rounded-lg">
                   <img
                     src={image}
                     alt={`${activity.title} ${idx + 1}`}
-                    className="w-full h-auto object-contain"
+                    className="w-full h-full object-cover"
                   />
                 </div>
               ))}
