@@ -1,6 +1,7 @@
 import toastmastersTeam from "@/assets/toastmasters-team.png";
 import pydataModerating from "@/assets/pydata-moderating.png";
 import pydataStage from "@/assets/pydata-stage.png";
+import tilburgTalk from "@/assets/tilburg-talk.png";
 
 export interface Activity {
   id: string;
@@ -23,6 +24,13 @@ export const activities: Activity[] = [
     title: "PyData Eindhoven 2025 — Conference Moderation & Organization",
     description: "Co-organizer and co-moderator of PyData Eindhoven 2025, contributing to the planning and delivery of a large-scale data and AI conference over several months of preparation. During the event, I co-moderated multiple technical sessions, introducing speakers and their topics, managing time and session flow, and facilitating audience Q&A. This role required clear communication, real-time coordination, and the ability to maintain an engaging and professional atmosphere for both speakers and attendees.",
     images: [pydataModerating, pydataStage],
+    layout: "horizontal",
+  },
+  {
+    id: "tilburg-talk",
+    title: "Technical Talk — Sharing Open-Source Research with the Data Community",
+    description: "Delivered a technical talk at Tilburg Data Night, presenting the design and structure of an open-source statistical package I developed. The session focused on translating research ideas into practical tools, discussing design choices, implementation trade-offs, and real-world use cases. Through this talk, I aim to contribute back to the data community by sharing lessons learned and encouraging knowledge exchange around applied data science.",
+    images: [tilburgTalk],
     layout: "horizontal",
   },
 ];
