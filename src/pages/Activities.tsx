@@ -1,10 +1,13 @@
 import toastmastersTeam from "@/assets/toastmasters-team.png";
+import pydataModerating from "@/assets/pydata-moderating.png";
+import pydataStage from "@/assets/pydata-stage.png";
 
 export interface Activity {
   id: string;
   title: string;
   description: string;
   images: string[];
+  layout?: "horizontal" | "vertical";
 }
 
 export const activities: Activity[] = [
@@ -13,6 +16,14 @@ export const activities: Activity[] = [
     title: "Toastmasters Den Bosch — Communication & Leadership Development",
     description: "Active member and former board member of Toastmasters Den Bosch. I deliver prepared speeches and structured evaluations, and have served on the club board to support meeting facilitation and member development. Through this role, I continuously strengthen my communication, presentation, and leadership skills—essential for stakeholder engagement and executive-level storytelling.",
     images: [toastmastersTeam],
+    layout: "horizontal",
+  },
+  {
+    id: "pydata",
+    title: "PyData Eindhoven 2025 — Conference Moderation & Organization",
+    description: "Co-organizer and co-moderator of PyData Eindhoven 2025, contributing to the planning and delivery of a large-scale data and AI conference over several months of preparation. During the event, I co-moderated multiple technical sessions, introducing speakers and their topics, managing time and session flow, and facilitating audience Q&A. This role required clear communication, real-time coordination, and the ability to maintain an engaging and professional atmosphere for both speakers and attendees.",
+    images: [pydataModerating, pydataStage],
+    layout: "vertical",
   },
 ];
 
@@ -50,7 +61,42 @@ interface ActivityBlockProps {
 
 const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
   const hasImages = activity.images.length > 0;
+  const isVertical = activity.layout === "vertical";
 
+  // Vertical layout: images stacked on top, text below
+  if (isVertical) {
+    return (
+      <article className="space-y-8">
+        {hasImages && (
+          <div className="space-y-4">
+            {activity.images.map((image, idx) => (
+              <div key={idx} className="overflow-hidden rounded-lg">
+                <img
+                  src={image}
+                  alt={`${activity.title} ${idx + 1}`}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div className="md:max-w-2xl">
+          <div className="space-y-1 mb-4">
+            <div className="w-8 h-px bg-accent" />
+          </div>
+          <h2 className="font-serif text-2xl md:text-3xl mb-4">
+            {activity.title}
+          </h2>
+          <p className="text-muted-foreground leading-relaxed">
+            {activity.description}
+          </p>
+        </div>
+      </article>
+    );
+  }
+
+  // Horizontal layout: image left/right, text opposite
   return (
     <article className={`grid gap-8 md:gap-12 ${hasImages ? 'md:grid-cols-2 items-center' : ''} ${reverse && hasImages ? 'md:[direction:rtl]' : ''}`}>
       {hasImages && (
@@ -66,7 +112,7 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
           ) : (
             <div className="grid grid-cols-2 gap-4">
               {activity.images.map((image, idx) => (
-                <div key={idx} className="aspect-square bg-muted overflow-hidden">
+                <div key={idx} className="aspect-square bg-muted overflow-hidden rounded-lg">
                   <img
                     src={image}
                     alt={`${activity.title} ${idx + 1}`}
