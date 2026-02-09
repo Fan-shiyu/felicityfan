@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, Github } from "lucide-react";
-
 export interface CaseData {
   slug: string;
   title: string;
@@ -14,19 +13,15 @@ export interface CaseData {
   delivered: string[];
   skills: string[];
 }
-
 interface CaseTemplateProps {
   caseData: CaseData;
 }
-
-const CaseTemplate = ({ caseData }: CaseTemplateProps) => {
-  return (
-    <div className="page-section">
+const CaseTemplate = ({
+  caseData
+}: CaseTemplateProps) => {
+  return <div className="page-section">
       <div className="container-narrow">
-        <Link
-          to="/#cases"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12 fade-up"
-        >
+        <Link to="/#cases" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12 fade-up">
           <ArrowLeft className="w-4 h-4" />
           Back to cases
         </Link>
@@ -37,32 +32,16 @@ const CaseTemplate = ({ caseData }: CaseTemplateProps) => {
           <p className="mt-4 text-lg text-muted-foreground fade-up delay-100">
             {caseData.descriptor}
           </p>
-          {(caseData.github || caseData.demo) && (
-            <div className="flex flex-wrap gap-4 mt-4 fade-up delay-100">
-              {caseData.github && (
-                <a
-                  href={caseData.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
+          {(caseData.github || caseData.demo) && <div className="flex flex-wrap gap-4 mt-4 fade-up delay-100">
+              {caseData.github && <a href={caseData.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                   <Github className="w-4 h-4" />
                   View on GitHub
-                </a>
-              )}
-              {caseData.demo && (
-                <a
-                  href={caseData.demo}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
+                </a>}
+              {caseData.demo && <a href={caseData.demo} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                   <span className="w-4 h-4 flex items-center justify-center">▶</span>
                   Watch Demo
-                </a>
-              )}
-            </div>
-          )}
+                </a>}
+            </div>}
         </header>
 
         <div className="space-y-16 fade-up delay-200">
@@ -82,12 +61,10 @@ const CaseTemplate = ({ caseData }: CaseTemplateProps) => {
               Task
             </h2>
             <ul className="space-y-2 max-w-3xl">
-              {caseData.task.map((item, index) => (
-                <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
+              {caseData.task.map((item, index) => <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
                   <span className="text-accent mt-1.5">•</span>
                   <span>{item}</span>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </section>
 
@@ -97,12 +74,10 @@ const CaseTemplate = ({ caseData }: CaseTemplateProps) => {
               Approach
             </h2>
             <ul className="space-y-2 max-w-3xl">
-              {caseData.approach.map((item, index) => (
-                <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
+              {caseData.approach.map((item, index) => <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
                   <span className="text-accent mt-1.5">•</span>
                   <span>{item}</span>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </section>
 
@@ -112,12 +87,10 @@ const CaseTemplate = ({ caseData }: CaseTemplateProps) => {
               Impact
             </h2>
             <ul className="space-y-2 max-w-3xl">
-              {caseData.impact.map((item, index) => (
-                <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
+              {caseData.impact.map((item, index) => <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
                   <span className="text-accent mt-1.5">•</span>
                   <span>{item}</span>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </section>
 
@@ -127,12 +100,10 @@ const CaseTemplate = ({ caseData }: CaseTemplateProps) => {
               Delivered
             </h2>
             <ul className="space-y-2 max-w-3xl">
-              {caseData.delivered.map((item, index) => (
-                <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
+              {caseData.delivered.map((item, index) => <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
                   <span className="text-accent mt-1.5">•</span>
                   <span>{item}</span>
-                </li>
-              ))}
+                </li>)}
             </ul>
           </section>
 
@@ -142,30 +113,15 @@ const CaseTemplate = ({ caseData }: CaseTemplateProps) => {
               Skills
             </h2>
             <div className="flex flex-wrap gap-2">
-              {caseData.skills.map((skill, index) => (
-                <span
-                  key={index}
-                  className="px-3 py-1.5 text-sm bg-secondary text-secondary-foreground rounded-full"
-                >
+              {caseData.skills.map((skill, index) => <span key={index} className="px-3 py-1.5 text-sm bg-secondary text-secondary-foreground rounded-full">
                   {skill}
-                </span>
-              ))}
+                </span>)}
             </div>
           </section>
         </div>
 
-        <div className="mt-16 pt-12 border-t border-border">
-          <Link
-            to="/#contact"
-            className="group inline-flex items-center gap-2 text-sm font-medium"
-          >
-            Interested in similar results? Let's talk
-            <ArrowLeft className="w-4 h-4 rotate-180 transition-transform group-hover:translate-x-1" />
-          </Link>
-        </div>
+        
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default CaseTemplate;
