@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { ArrowRight, Linkedin, Github, Mail } from "lucide-react";
 import { z } from "zod";
@@ -185,14 +186,19 @@ const ContactForm = () => {
       return;
     }
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({
-      name: "",
-      email: "",
-      message: ""
-    });
+    try {
+      const { data, error } = await supabase.functions.invoke("send-contact-email", {
+        body: result.data,
+      });
+      if (error) throw error;
+      setIsSubmitted(true);
+      setFormData({ name: "", email: "", message: "" });
+    } catch (err) {
+      console.error("Failed to send message:", err);
+      alert("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return <>
       <header className="text-center mb-12">
