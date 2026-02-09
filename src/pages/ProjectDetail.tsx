@@ -1,10 +1,15 @@
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ExternalLink, Code2, Lightbulb, Target, AlertTriangle, Wrench, Layers } from "lucide-react";
-import { projects } from "./Projects";
+import { ArrowLeft, ExternalLink } from "lucide-react";
+import { projectDetails } from "@/data/projects";
 
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
-  const project = projects.find((p) => p.slug === slug);
+  const project = slug ? projectDetails[slug] : undefined;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
 
   if (!project) {
     return (
@@ -30,159 +35,98 @@ const ProjectDetail = () => {
           Back to projects
         </Link>
 
-        <header className="max-w-3xl mb-16">
-          <div className="flex flex-wrap items-center gap-3 mb-6 fade-up">
-            <span className="px-3 py-1 text-xs bg-accent/10 text-accent rounded-full font-medium">
-              {project.category}
-            </span>
-            {project.tags.slice(1).map((tag, index) => (
-              <span
-                key={index}
-                className="px-3 py-1 text-xs bg-secondary text-secondary-foreground rounded-full"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-          
-          <h1 className="fade-up delay-100">{project.title}</h1>
-          
-          <p className="mt-6 text-xl text-muted-foreground fade-up delay-200">
-            {project.description}
+        {/* Page Header */}
+        <header className="mb-16">
+          <h1 className="fade-up">{project.title}</h1>
+          <p className="mt-4 text-lg text-muted-foreground fade-up delay-100">
+            {project.descriptor}
           </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-6 text-sm fade-up delay-300">
-            <span className="text-muted-foreground">{project.status}</span>
-            {project.links && project.links.map((link, index) => (
-              <a
-                key={index}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-accent hover:underline"
-              >
-                {link.label}
-                <ExternalLink className="w-4 h-4" />
-              </a>
-            ))}
-          </div>
+          {project.links && project.links.length > 0 && (
+            <div className="flex flex-wrap gap-4 mt-6 fade-up delay-100">
+              {project.links.map((link, index) => (
+                <a
+                  key={index}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          )}
         </header>
 
-        <div className="grid gap-12 fade-up delay-300">
-          {/* Overview / Motivation */}
+        <div className="space-y-16 fade-up delay-200">
+          {/* Motivation */}
           <section>
-            <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
-              <Lightbulb className="w-5 h-5 text-muted-foreground" />
-              <h2 className="text-lg font-medium">Motivation</h2>
-            </div>
+            <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
+              Motivation
+            </h2>
             <div className="text-muted-foreground leading-relaxed max-w-3xl space-y-4">
-              {project.overview.split("\n\n").map((paragraph, index) => (
+              {project.motivation.split("\n\n").map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
             </div>
           </section>
 
-          {/* Problem Statement */}
-          {project.problemStatement && (
-            <section>
-              <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
-                <AlertTriangle className="w-5 h-5 text-muted-foreground" />
-                <h2 className="text-lg font-medium">Problem Statement</h2>
-              </div>
-              <ul className="space-y-3 max-w-3xl">
-                {project.problemStatement.map((item, index) => (
-                  <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2.5 flex-shrink-0" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {/* Core Idea */}
-          {project.coreIdea && (
-            <section>
-              <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
-                <Target className="w-5 h-5 text-muted-foreground" />
-                <h2 className="text-lg font-medium">Core Idea</h2>
-              </div>
-              <p className="text-muted-foreground leading-relaxed max-w-3xl">
-                {project.coreIdea}
-              </p>
-            </section>
-          )}
-
-          {/* Methodology / Approach */}
+          {/* Problem Context */}
           <section>
-            <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
-              <Target className="w-5 h-5 text-muted-foreground" />
-              <h2 className="text-lg font-medium">Methodology</h2>
-            </div>
-            <p className="text-muted-foreground leading-relaxed max-w-3xl">
-              {project.approach}
-            </p>
-          </section>
-
-          {/* Technical Details */}
-          <section>
-            <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border">
-              <Code2 className="w-5 h-5 text-muted-foreground" />
-              <h2 className="text-lg font-medium">Technical Details</h2>
-            </div>
-            <ul className="space-y-3 max-w-3xl">
-              {project.technicalDetails.map((detail, index) => (
-                <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2.5 flex-shrink-0" />
-                  <span>{detail}</span>
+            <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
+              Problem Context
+            </h2>
+            <ul className="space-y-2 max-w-3xl">
+              {project.problemContext.map((item, index) => (
+                <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
+                  <span className="text-accent mt-1.5">•</span>
+                  <span>{item}</span>
                 </li>
               ))}
             </ul>
           </section>
 
-          {/* Implementation & Design */}
-          {project.implementation && (
-            <section>
-              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border">
-                <Layers className="w-5 h-5 text-muted-foreground" />
-                <h2 className="text-lg font-medium">Implementation & Design</h2>
-              </div>
-              <ul className="space-y-3 max-w-3xl">
-                {project.implementation.map((item, index) => (
-                  <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2.5 flex-shrink-0" />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+          {/* Approach */}
+          <section>
+            <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
+              Approach
+            </h2>
+            <ul className="space-y-2 max-w-3xl">
+              {project.approach.map((item, index) => (
+                <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
+                  <span className="text-accent mt-1.5">•</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
 
           {/* Results & Insights */}
           <section>
-            <h2 className="text-lg font-medium mb-6 pb-4 border-b border-border">
+            <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
               Results & Insights
             </h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {project.outcomes.map((outcome, index) => (
-                <div key={index} className="p-4 bg-card border border-border">
-                  <span className="text-sm">{outcome}</span>
-                </div>
+            <ul className="space-y-2 max-w-3xl">
+              {project.results.map((item, index) => (
+                <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
+                  <span className="text-accent mt-1.5">•</span>
+                  <span>{item}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </section>
 
-          {/* Limitations & Future Directions */}
-          {project.limitations && (
+          {/* From Analysis to Action */}
+          {project.analysisToAction && (
             <section>
-              <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
-                <AlertTriangle className="w-5 h-5 text-muted-foreground" />
-                <h2 className="text-lg font-medium">Limitations & Future Directions</h2>
-              </div>
-              <ul className="space-y-3 max-w-3xl">
-                {project.limitations.map((item, index) => (
-                  <li key={index} className="flex items-start gap-3 text-muted-foreground">
-                    <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2.5 flex-shrink-0" />
+              <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
+                From Analysis to Action
+              </h2>
+              <ul className="space-y-2 max-w-3xl">
+                {project.analysisToAction.map((item, index) => (
+                  <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
+                    <span className="text-accent mt-1.5">•</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -190,44 +134,45 @@ const ProjectDetail = () => {
             </section>
           )}
 
-          {/* Tools & Technologies */}
+          {/* Deliverables */}
           <section>
             <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
-              Tools & Technologies
+              Deliverables
+            </h2>
+            <ul className="space-y-2 max-w-3xl">
+              {project.deliverables.map((item, index) => (
+                <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
+                  <span className="text-accent mt-1.5">•</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Skills Demonstrated */}
+          <section>
+            <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
+              Skills Demonstrated
             </h2>
             <div className="flex flex-wrap gap-2">
-              {project.tools.map((tool, index) => (
-                <span key={index} className="px-4 py-2 text-sm bg-secondary text-secondary-foreground rounded-full">
-                  {tool}
+              {project.skills.map((skill, index) => (
+                <span
+                  key={index}
+                  className="px-3 py-1.5 text-sm bg-secondary text-secondary-foreground rounded-full"
+                >
+                  {skill}
                 </span>
               ))}
             </div>
           </section>
-
-          {/* Skills */}
-          {project.skills && (
-            <section>
-              <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
-                <Wrench className="w-5 h-5 text-muted-foreground" />
-                <h2 className="text-lg font-medium">Skills Demonstrated</h2>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {project.skills.map((skill, index) => (
-                  <span key={index} className="px-3 py-1.5 text-sm bg-accent/10 text-accent rounded-full">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </section>
-          )}
         </div>
 
         <div className="mt-16 pt-12 border-t border-border">
           <Link
-            to="/contact"
+            to="/#contact"
             className="group inline-flex items-center gap-2 text-sm font-medium"
           >
-            Want to collaborate? Get in touch
+            Interested in similar work? Let's talk
             <ArrowLeft className="w-4 h-4 rotate-180 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
