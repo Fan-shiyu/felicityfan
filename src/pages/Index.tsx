@@ -32,13 +32,7 @@ const Index = () => {
               
               <h1 className="fade-up delay-100 text-balance">Felicity Fan</h1>
               
-              <p className="mt-6 text-lg text-muted-foreground max-w-2xl fade-up delay-200 leading-relaxed">
-                An AI & Data Consultant focused on delivering AI-powered solutions that drive 
-                digital transformation. I create measurable impact by optimizing operations 
-                and improving customer experiences, translating complex business challenges 
-                into actionable, data-driven insights through scalable machine learning, 
-                advanced analytics, and real-time dashboards.
-              </p>
+              <p className="mt-6 text-lg text-muted-foreground max-w-2xl fade-up delay-200 leading-relaxed">An AI & Data Consultant focused on delivering AI-powered solutions that drive digital transformation. I create measurable impact by optimizing operations and improving customer experiences, translating complex business challenges into actionable, data-driven insights through scalable machine learning pipelines, advanced analytics, AI agents and LLMs, and real-time interactive dashboards.  </p>
               
               <div className="mt-10 flex flex-wrap justify-center md:justify-start gap-6 fade-up delay-300">
                 <a href="#cases" className="group inline-flex items-center gap-2 text-sm font-medium tracking-wide">
@@ -69,12 +63,7 @@ const Index = () => {
           </header>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 fade-up delay-200">
-            {caseCards.map(caseItem => (
-              <Link
-                key={caseItem.slug}
-                to={`/cases/${caseItem.slug}`}
-                className="group block p-5 bg-card border border-border hover:border-muted-foreground/40 transition-all duration-300"
-              >
+            {caseCards.map(caseItem => <Link key={caseItem.slug} to={`/cases/${caseItem.slug}`} className="group block p-5 bg-card border border-border hover:border-muted-foreground/40 transition-all duration-300">
                 <h3 className="font-serif text-lg group-hover:text-accent transition-colors leading-snug">
                   {caseItem.title}
                 </h3>
@@ -82,17 +71,11 @@ const Index = () => {
                   {caseItem.description}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-1.5">
-                  {caseItem.tags.slice(0, 2).map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full"
-                    >
+                  {caseItem.tags.slice(0, 2).map((tag, tagIndex) => <span key={tagIndex} className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full">
                       {tag}
-                    </span>
-                  ))}
+                    </span>)}
                 </div>
-              </Link>
-            ))}
+              </Link>)}
           </div>
         </div>
       </section>
@@ -109,12 +92,7 @@ const Index = () => {
           </header>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 fade-up delay-200">
-            {projectCards.map(project => (
-              <Link
-                key={project.slug}
-                to={`/projects/${project.slug}`}
-                className="group block p-5 bg-card border border-border hover:border-muted-foreground/40 transition-all duration-300"
-              >
+            {projectCards.map(project => <Link key={project.slug} to={`/projects/${project.slug}`} className="group block p-5 bg-card border border-border hover:border-muted-foreground/40 transition-all duration-300">
               <h3 className="font-serif text-lg group-hover:text-accent transition-colors leading-snug">
                   {project.title}
                 </h3>
@@ -122,17 +100,11 @@ const Index = () => {
                   {project.tags.join(" · ")}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-1.5">
-                  {project.tags.slice(0, 2).map((tag, tagIndex) => (
-                    <span
-                      key={tagIndex}
-                      className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full"
-                    >
+                  {project.tags.slice(0, 2).map((tag, tagIndex) => <span key={tagIndex} className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full">
                       {tag}
-                    </span>
-                  ))}
+                    </span>)}
                 </div>
-              </Link>
-            ))}
+              </Link>)}
           </div>
         </div>
       </section>
@@ -187,12 +159,19 @@ const ContactForm = () => {
     }
     setIsSubmitting(true);
     try {
-      const { data, error } = await supabase.functions.invoke("send-contact-email", {
-        body: result.data,
+      const {
+        data,
+        error
+      } = await supabase.functions.invoke("send-contact-email", {
+        body: result.data
       });
       if (error) throw error;
       setIsSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({
+        name: "",
+        email: "",
+        message: ""
+      });
     } catch (err) {
       console.error("Failed to send message:", err);
       alert("Failed to send message. Please try again.");
