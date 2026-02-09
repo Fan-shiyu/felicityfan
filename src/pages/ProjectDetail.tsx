@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ExternalLink, Code2, Lightbulb, Target } from "lucide-react";
+import { ArrowLeft, ExternalLink, Code2, Lightbulb, Target, AlertTriangle, Wrench, Layers } from "lucide-react";
 import { projects } from "./Projects";
 
 const ProjectDetail = () => {
@@ -53,37 +53,71 @@ const ProjectDetail = () => {
 
           <div className="mt-8 flex flex-wrap items-center gap-6 text-sm fade-up delay-300">
             <span className="text-muted-foreground">{project.status}</span>
-            {project.link && (
+            {project.links && project.links.map((link, index) => (
               <a
-                href={project.link}
+                key={index}
+                href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-accent hover:underline"
               >
-                View project
+                {link.label}
                 <ExternalLink className="w-4 h-4" />
               </a>
-            )}
+            ))}
           </div>
         </header>
 
         <div className="grid gap-12 fade-up delay-300">
-          {/* Overview */}
+          {/* Overview / Motivation */}
           <section>
             <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
               <Lightbulb className="w-5 h-5 text-muted-foreground" />
-              <h2 className="text-lg font-medium">Overview</h2>
+              <h2 className="text-lg font-medium">Motivation</h2>
             </div>
-            <p className="text-muted-foreground leading-relaxed max-w-3xl">
-              {project.overview}
-            </p>
+            <div className="text-muted-foreground leading-relaxed max-w-3xl space-y-4">
+              {project.overview.split("\n\n").map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
           </section>
 
-          {/* Approach */}
+          {/* Problem Statement */}
+          {project.problemStatement && (
+            <section>
+              <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
+                <AlertTriangle className="w-5 h-5 text-muted-foreground" />
+                <h2 className="text-lg font-medium">Problem Statement</h2>
+              </div>
+              <ul className="space-y-3 max-w-3xl">
+                {project.problemStatement.map((item, index) => (
+                  <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2.5 flex-shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Core Idea */}
+          {project.coreIdea && (
+            <section>
+              <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
+                <Target className="w-5 h-5 text-muted-foreground" />
+                <h2 className="text-lg font-medium">Core Idea</h2>
+              </div>
+              <p className="text-muted-foreground leading-relaxed max-w-3xl">
+                {project.coreIdea}
+              </p>
+            </section>
+          )}
+
+          {/* Methodology / Approach */}
           <section>
             <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
               <Target className="w-5 h-5 text-muted-foreground" />
-              <h2 className="text-lg font-medium">Approach</h2>
+              <h2 className="text-lg font-medium">Methodology</h2>
             </div>
             <p className="text-muted-foreground leading-relaxed max-w-3xl">
               {project.approach}
@@ -98,10 +132,7 @@ const ProjectDetail = () => {
             </div>
             <ul className="space-y-3 max-w-3xl">
               {project.technicalDetails.map((detail, index) => (
-                <li
-                  key={index}
-                  className="flex items-start gap-3 text-muted-foreground"
-                >
+                <li key={index} className="flex items-start gap-3 text-muted-foreground">
                   <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2.5 flex-shrink-0" />
                   <span>{detail}</span>
                 </li>
@@ -109,22 +140,55 @@ const ProjectDetail = () => {
             </ul>
           </section>
 
-          {/* Outcomes */}
+          {/* Implementation & Design */}
+          {project.implementation && (
+            <section>
+              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-border">
+                <Layers className="w-5 h-5 text-muted-foreground" />
+                <h2 className="text-lg font-medium">Implementation & Design</h2>
+              </div>
+              <ul className="space-y-3 max-w-3xl">
+                {project.implementation.map((item, index) => (
+                  <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2.5 flex-shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Results & Insights */}
           <section>
             <h2 className="text-lg font-medium mb-6 pb-4 border-b border-border">
-              Key Outcomes
+              Results & Insights
             </h2>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid sm:grid-cols-2 gap-4">
               {project.outcomes.map((outcome, index) => (
-                <div
-                  key={index}
-                  className="p-4 bg-card border border-border"
-                >
+                <div key={index} className="p-4 bg-card border border-border">
                   <span className="text-sm">{outcome}</span>
                 </div>
               ))}
             </div>
           </section>
+
+          {/* Limitations & Future Directions */}
+          {project.limitations && (
+            <section>
+              <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
+                <AlertTriangle className="w-5 h-5 text-muted-foreground" />
+                <h2 className="text-lg font-medium">Limitations & Future Directions</h2>
+              </div>
+              <ul className="space-y-3 max-w-3xl">
+                {project.limitations.map((item, index) => (
+                  <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                    <span className="w-1.5 h-1.5 rounded-full bg-accent mt-2.5 flex-shrink-0" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
           {/* Tools & Technologies */}
           <section>
@@ -133,15 +197,29 @@ const ProjectDetail = () => {
             </h2>
             <div className="flex flex-wrap gap-2">
               {project.tools.map((tool, index) => (
-                <span
-                  key={index}
-                  className="px-4 py-2 text-sm bg-secondary text-secondary-foreground rounded-full"
-                >
+                <span key={index} className="px-4 py-2 text-sm bg-secondary text-secondary-foreground rounded-full">
                   {tool}
                 </span>
               ))}
             </div>
           </section>
+
+          {/* Skills */}
+          {project.skills && (
+            <section>
+              <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
+                <Wrench className="w-5 h-5 text-muted-foreground" />
+                <h2 className="text-lg font-medium">Skills Demonstrated</h2>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {project.skills.map((skill, index) => (
+                  <span key={index} className="px-3 py-1.5 text-sm bg-accent/10 text-accent rounded-full">
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
         </div>
 
         <div className="mt-16 pt-12 border-t border-border">

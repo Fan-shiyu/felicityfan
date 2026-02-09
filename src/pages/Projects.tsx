@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
+export interface ProjectLink {
+  label: string;
+  url: string;
+}
+
 export interface Project {
   slug: string;
   title: string;
@@ -9,35 +14,73 @@ export interface Project {
   category: string;
   status: string;
   overview: string;
+  problemStatement?: string[];
+  coreIdea?: string;
   approach: string;
   technicalDetails: string[];
+  implementation?: string[];
   outcomes: string[];
+  limitations?: string[];
   tools: string[];
-  link?: string;
+  skills?: string[];
+  links?: ProjectLink[];
 }
 
 export const projects: Project[] = [
   {
-    slug: "strategy-playbook",
-    title: "Strategy Playbook",
-    description: "A comprehensive guide distilling strategic frameworks and methodologies into actionable playbooks.",
-    tags: ["Writing", "Strategy", "Frameworks"],
-    category: "Writing",
-    status: "In progress · Expected 2024",
-    overview: "A book project synthesizing 15+ years of consulting experience into accessible frameworks for strategists and business leaders. The playbook covers problem structuring, hypothesis-driven analysis, and stakeholder communication.",
-    approach: "Each chapter follows a consistent structure: conceptual foundation, practical methodology, real-world examples, and exercises. The content is informed by both academic research and hands-on consulting experience.",
+    slug: "multivariate-cosine-similarity",
+    title: "Quantifying Similarity Between Datasets Through Projections",
+    description: "A projection-based multivariate cosine similarity method with open-source tools in R, Python, and a web application.",
+    tags: ["Research", "Statistical Methods", "Python", "R", "Web Application"],
+    category: "Research",
+    status: "Completed · Published",
+    overview: "Comparing whether two datasets are similar is a surprisingly difficult problem. In practice, similarity is often reduced to univariate statistics, distance metrics, or distributional tests—methods that struggle to capture multivariate structure, directional variance, and interpretability.\n\nI wanted to answer a more fundamental question: when can we say that two datasets are genuinely comparable in a multivariate sense—and how can we explain that similarity geometrically?\n\nThis project emerged from that question and evolved into a new projection-based multivariate cosine similarity method, alongside open-source tools that make the method accessible to both technical and non-technical users.",
+    problemStatement: [
+      "Most measures collapse multivariate structure into a single scalar without explanation",
+      "Many are sensitive to scale, noise, or dimensionality",
+      "They provide little insight into why two datasets are similar or different",
+      "Practitioners need a global similarity score, geometric intuition, and visual diagnostics",
+    ],
+    coreIdea: "The key idea is to view dataset similarity through the geometry of projections. Each dataset is represented in a reduced multivariate space using PCA. Principal directions from one dataset are projected onto the PCA space of the other. Similarity is quantified using a cosine-based metric reflecting alignment of directions, relative variance captured, and angular relationships between components. This yields a scalar similarity score, vector lengths and angles with direct geometric meaning, and a natural foundation for visualization.",
+    approach: "The workflow consists of four steps: dimensionality reduction via PCA applied independently to each dataset; projection and alignment of principal components from one dataset into the space of the other; cosine similarity computation using a multivariate formulation that aggregates directional agreement; and diagnostic analysis with visualization using angles, vector lengths, and projections to explain where similarity comes from and where it breaks down. A deliberate design choice was to keep the method model-agnostic, interpretable, and robust to noise.",
     technicalDetails: [
-      "Structured problem-solving methodologies (MECE, issue trees, hypothesis pyramids)",
-      "Quantitative analysis frameworks for market sizing and financial modeling",
-      "Stakeholder mapping and influence analysis techniques",
-      "Decision-making under uncertainty using scenario planning",
+      "PCA-based dimensionality reduction with flexible control over retained components",
+      "Principal component projection and alignment across dataset spaces",
+      "Multivariate cosine similarity formulation aggregating directional agreement",
+      "Diagnostic visualization of angles, vector lengths, and projections (1D, 2D, 3D)",
+    ],
+    implementation: [
+      "R package (adt) — PCA-based projection objects, similarity computation, and rich diagnostic visualizations for statistical exploration",
+      "Python package (adtpy) — Modular architecture with reusable projection and plotting utilities, seamless NumPy and pandas integration",
+      "Web application — User-facing interface abstracting the mathematics, allowing non-technical users to upload datasets, compute similarity scores, and explore projections visually",
     ],
     outcomes: [
-      "12 chapters covering end-to-end strategic engagement lifecycle",
-      "50+ frameworks and templates",
-      "Case studies from multiple industries",
+      "Projection-based cosine similarity captures structural comparability missed by standard metrics",
+      "Directional disagreement between datasets is often more informative than marginal distribution differences",
+      "Visualization of projections significantly improves interpretability and trust in similarity scores",
+      "Similarity is rarely uniform across components—exposing that structure is often more valuable than a single number",
     ],
-    tools: ["Notion", "Figma", "LaTeX"],
+    limitations: [
+      "PCA-based representations may miss non-linear structure",
+      "Sensitivity to component selection requires careful interpretation",
+      "Extension to time-dependent or functional data remains open",
+      "Planned extensions include nonlinear embeddings, robust PCA variants, and domain-specific similarity weighting",
+    ],
+    tools: ["Python", "R", "NumPy", "pandas", "Shiny", "PCA", "Cosine Similarity"],
+    skills: [
+      "Statistical Method Design",
+      "Multivariate Analysis",
+      "PCA",
+      "Geometry-Based Similarity",
+      "Python & R Package Development",
+      "Data Visualization",
+      "Research-to-Product Translation",
+    ],
+    links: [
+      { label: "R Package", url: "https://github.com/Fan-shiyu/Multivariate-Cosine-Similarity" },
+      { label: "Python Package", url: "https://github.com/Fan-shiyu/adtpy" },
+      { label: "Web Application", url: "https://5683wm-shiyu-fan.shinyapps.io/Multivariate_Cosine_Similarity/" },
+    ],
   },
   {
     slug: "decision-lab-podcast",
@@ -60,7 +103,7 @@ export const projects: Project[] = [
       "Featured in Apple Podcasts Business Top 100",
     ],
     tools: ["Riverside.fm", "Descript", "Transistor"],
-    link: "https://example.com/podcast",
+    links: [{ label: "Listen", url: "https://example.com/podcast" }],
   },
   {
     slug: "climate-collective",
@@ -83,53 +126,7 @@ export const projects: Project[] = [
       "Open-source carbon tracking toolkit released",
     ],
     tools: ["dbt", "Snowflake", "Looker", "Python"],
-    link: "https://example.com/climate",
-  },
-  {
-    slug: "ml-optimization-library",
-    title: "OptimizeML",
-    description: "Open-source Python library for hyperparameter optimization using Bayesian methods.",
-    tags: ["Open Source", "Machine Learning", "Python"],
-    category: "Open Source",
-    status: "Active · 2,500+ GitHub stars",
-    overview: "A lightweight, research-backed library implementing state-of-the-art Bayesian optimization algorithms for machine learning hyperparameter tuning. Designed for both practitioners and researchers.",
-    approach: "The library prioritizes ease of use without sacrificing flexibility. It supports multiple acquisition functions, handles mixed parameter spaces, and integrates seamlessly with popular ML frameworks.",
-    technicalDetails: [
-      "Gaussian Process-based surrogate modeling with custom kernels",
-      "Expected Improvement, UCB, and Thompson Sampling acquisition functions",
-      "Support for categorical, continuous, and conditional parameters",
-      "Parallel optimization with asynchronous evaluation support",
-      "Integration with scikit-learn, PyTorch, and TensorFlow",
-    ],
-    outcomes: [
-      "2,500+ GitHub stars",
-      "Used by 3 Fortune 500 companies",
-      "Published paper at NeurIPS workshop",
-    ],
-    tools: ["Python", "NumPy", "SciPy", "GPyTorch"],
-    link: "https://github.com",
-  },
-  {
-    slug: "real-estate-optimization",
-    title: "PropOptimizer",
-    description: "Research project applying operations research methods to real estate portfolio optimization.",
-    tags: ["Research", "Optimization", "Real Estate"],
-    category: "Research",
-    status: "Completed · 2023",
-    overview: "An academic research project developing novel optimization algorithms for real estate portfolio construction. The work combines modern portfolio theory with constraint programming to handle real-world investment constraints.",
-    approach: "We formulated the problem as a mixed-integer quadratic program (MIQP) and developed custom decomposition methods to handle large-scale instances. The approach was validated on historical data from commercial real estate markets.",
-    technicalDetails: [
-      "Mixed-integer quadratic programming (MIQP) formulation",
-      "Benders decomposition for computational tractability",
-      "Monte Carlo simulation for risk modeling",
-      "Robust optimization for parameter uncertainty",
-    ],
-    outcomes: [
-      "15% improvement in risk-adjusted returns vs. benchmark",
-      "Paper accepted at Operations Research journal",
-      "Algorithm licensed by real estate investment firm",
-    ],
-    tools: ["Python", "Gurobi", "CVXPY", "pandas"],
+    links: [{ label: "Visit", url: "https://example.com/climate" }],
   },
 ];
 
