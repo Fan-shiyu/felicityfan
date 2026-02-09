@@ -16,8 +16,12 @@ export interface ProjectData {
   links?: ProjectLink[];
   motivation: string;
   problemContext: string[];
+  coreIdea?: string;
+  methodology?: string[];
   approach: string[];
+  implementationDesign?: string[];
   results: string[];
+  limitations?: string[];
   analysisToAction?: string[];
   deliverables: string[];
   skills: string[];
@@ -52,30 +56,41 @@ export const projectDetails: Record<string, ProjectData> = {
       { label: "Web Application", url: "https://5683wm-shiyu-fan.shinyapps.io/Multivariate_Cosine_Similarity/" },
     ],
     motivation:
-      "Comparing whether two datasets are similar is a surprisingly difficult problem. In practice, similarity is often reduced to univariate statistics, distance metrics, or distributional tests—methods that struggle to capture multivariate structure, directional variance, and interpretability.\n\nI wanted to answer a more fundamental question: when can we say that two datasets are genuinely comparable in a multivariate sense—and how can we explain that similarity geometrically?\n\nThis project emerged from that question and evolved into a new projection-based multivariate cosine similarity method, alongside open-source tools that make the method accessible to both technical and non-technical users.",
+      "Comparing whether two datasets are similar is a surprisingly difficult problem. In practice, similarity is often reduced to univariate statistics, distance metrics, or distributional tests—methods that struggle to capture multivariate structure, directional variance, and interpretability.\n\nI wanted to answer a more fundamental question:\n\nWhen can we say that two datasets are genuinely comparable in a multivariate sense—and how can we explain that similarity geometrically?\n\nThis project emerged from that question and evolved into a new projection-based multivariate cosine similarity method, alongside open-source tools that make the method accessible to both technical and non-technical users.",
     problemContext: [
-      "Most existing measures collapse multivariate structure into a single scalar without explanation",
-      "Many are sensitive to scale, noise, or dimensionality",
+      "They collapse multivariate structure into a single scalar without explanation",
+      "They are sensitive to scale, noise, or dimensionality",
       "They provide little insight into why two datasets are similar or different",
-      "Practitioners need a global similarity score, geometric intuition, and visual diagnostics",
+      "In applied settings (e.g. nutrition, social science, experimental data), practitioners need a global similarity score, geometric intuition behind that score, and visual diagnostics to support interpretation",
+    ],
+    coreIdea:
+      "The key idea behind this project is to view dataset similarity through the geometry of projections.\n\nEach dataset is first represented in a reduced multivariate space using Principal Component Analysis (PCA). Principal directions from one dataset are projected onto the PCA space of the other. Similarity is quantified using a cosine-based metric that reflects alignment of directions, relative variance captured, and angular relationships between components.\n\nThis yields a scalar similarity score, vector lengths and angles with direct geometric meaning, and a natural foundation for visualization (1D, 2D, 3D).",
+    methodology: [
+      "Dimensionality reduction — PCA is applied independently to each dataset, with flexible control over the number of retained components",
+      "Projection & alignment — Principal components from one dataset are projected into the space of the other, producing interpretable vectors",
+      "Cosine similarity computation — Similarity is computed using a multivariate cosine formulation that aggregates directional agreement across components",
+      "Diagnostic analysis & visualization — Angles, vector lengths, and projections are used to explain where similarity comes from—and where it breaks down",
     ],
     approach: [
-      "PCA applied independently to each dataset with flexible control over retained components",
-      "Principal components from one dataset projected into the space of the other, producing interpretable vectors",
-      "Cosine similarity computed using a multivariate formulation aggregating directional agreement across components",
-      "Diagnostic analysis and visualization using angles, vector lengths, and projections to explain where similarity comes from—and where it breaks down",
-      "A deliberate design choice to keep the method model-agnostic, interpretable, and robust to noise",
+      "A deliberate design choice was to keep the method model-agnostic, interpretable, and robust to noise rather than optimizing for black-box accuracy",
+    ],
+    implementationDesign: [
+      "R package (adt) — Designed for statistical exploration, providing PCA-based projection objects, similarity computation, and rich diagnostic visualizations",
+      "Python package (adtpy) — A Pythonic implementation with modular architecture, reusable projection and plotting utilities, and seamless integration with NumPy and pandas workflows",
+      "Web application — A user-facing interface that abstracts the mathematics, allowing non-technical users to upload datasets, compute similarity scores, and explore projections visually",
+      "Across all three, the focus was on reproducibility, consistent APIs, and a clear separation between computation and visualization",
     ],
     results: [
       "Projection-based cosine similarity captures structural comparability missed by standard metrics",
       "Directional disagreement between datasets is often more informative than marginal distribution differences",
       "Visualization of projections significantly improves interpretability and trust in similarity scores",
-      "Similarity is rarely uniform across components—exposing that structure is often more valuable than a single number",
+      "Similarity is rarely uniform across components—and exposing that structure is often more valuable than a single number",
     ],
-    analysisToAction: [
-      "Implemented end-to-end in R (adt package), Python (adtpy), and a Shiny web application for non-technical users",
-      "Each artifact was designed for a different audience: statistical exploration, programmatic integration, and visual interaction",
-      "Focus on reproducibility, consistent APIs, and clear separation between computation and visualization",
+    limitations: [
+      "PCA-based representations may miss non-linear structure",
+      "Sensitivity to component selection requires careful interpretation",
+      "Extension to time-dependent or functional data remains open",
+      "Planned extensions include nonlinear embeddings, robust PCA variants, and domain-specific similarity weighting",
     ],
     deliverables: [
       "R package (adt) — PCA-based projection objects, similarity computation, and diagnostic visualizations",
