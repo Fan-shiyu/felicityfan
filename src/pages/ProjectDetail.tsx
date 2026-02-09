@@ -73,81 +73,55 @@ const ProjectDetail = () => {
           </section>
 
           {/* Problem Context */}
-          <section>
-            <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
-              Problem Context
-            </h2>
-            <ul className="space-y-2 max-w-3xl">
-              {project.problemContext.map((item, index) => (
-                <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
-                  <span className="text-accent mt-1.5">•</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
+          <BulletSection title="Problem Context" items={project.problemContext} />
 
-          {/* Approach */}
-          <section>
-            <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
-              Approach
-            </h2>
-            <ul className="space-y-2 max-w-3xl">
-              {project.approach.map((item, index) => (
-                <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
-                  <span className="text-accent mt-1.5">•</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {/* Results & Insights */}
-          <section>
-            <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
-              Results & Insights
-            </h2>
-            <ul className="space-y-2 max-w-3xl">
-              {project.results.map((item, index) => (
-                <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
-                  <span className="text-accent mt-1.5">•</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          {/* From Analysis to Action */}
-          {project.analysisToAction && (
+          {/* Core Idea */}
+          {project.coreIdea && (
             <section>
               <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
-                From Analysis to Action
+                Core Idea
               </h2>
-              <ul className="space-y-2 max-w-3xl">
-                {project.analysisToAction.map((item, index) => (
-                  <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
-                    <span className="text-accent mt-1.5">•</span>
-                    <span>{item}</span>
-                  </li>
+              <div className="text-muted-foreground leading-relaxed max-w-3xl space-y-4">
+                {project.coreIdea.split("\n\n").map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
                 ))}
-              </ul>
+              </div>
             </section>
           )}
 
+          {/* Methodology */}
+          {project.methodology && (
+            <BulletSection title="Methodology" items={project.methodology} />
+          )}
+
+          {/* Approach (shown only if it has meaningful content beyond methodology) */}
+          {project.approach.length > 1 && (
+            <BulletSection title="Approach" items={project.approach} />
+          )}
+          {project.approach.length === 1 && !project.methodology && (
+            <BulletSection title="Approach" items={project.approach} />
+          )}
+
+          {/* Implementation & Design */}
+          {project.implementationDesign && (
+            <BulletSection title="Implementation & Design" items={project.implementationDesign} />
+          )}
+
+          {/* Results & Insights */}
+          <BulletSection title="Results & Insights" items={project.results} />
+
+          {/* Limitations & Future Directions */}
+          {project.limitations && (
+            <BulletSection title="Limitations & Future Directions" items={project.limitations} />
+          )}
+
+          {/* From Analysis to Action */}
+          {project.analysisToAction && (
+            <BulletSection title="From Analysis to Action" items={project.analysisToAction} />
+          )}
+
           {/* Deliverables */}
-          <section>
-            <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
-              Deliverables
-            </h2>
-            <ul className="space-y-2 max-w-3xl">
-              {project.deliverables.map((item, index) => (
-                <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
-                  <span className="text-accent mt-1.5">•</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
+          <BulletSection title="Deliverables" items={project.deliverables} />
 
           {/* Skills Demonstrated */}
           <section>
@@ -180,5 +154,21 @@ const ProjectDetail = () => {
     </div>
   );
 };
+
+const BulletSection = ({ title, items }: { title: string; items: string[] }) => (
+  <section>
+    <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
+      {title}
+    </h2>
+    <ul className="space-y-2 max-w-3xl">
+      {items.map((item, index) => (
+        <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
+          <span className="text-accent mt-1.5">•</span>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+);
 
 export default ProjectDetail;
