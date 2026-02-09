@@ -4,7 +4,7 @@ import { ArrowRight, Linkedin, Github, Mail } from "lucide-react";
 import { z } from "zod";
 import profilePhoto from "@/assets/profile-photo.png";
 import { caseCards } from "@/data/cases";
-import { projects } from "./Projects";
+import { projectCards } from "@/data/projects";
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
   email: z.string().trim().email("Please enter a valid email").max(255, "Email must be less than 255 characters"),
@@ -108,22 +108,17 @@ const Index = () => {
           </header>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 fade-up delay-200">
-            {projects.map(project => (
+            {projectCards.map(project => (
               <Link
                 key={project.slug}
                 to={`/projects/${project.slug}`}
                 className="group block p-5 bg-card border border-border hover:border-muted-foreground/40 transition-all duration-300"
               >
-                <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-serif text-lg group-hover:text-accent transition-colors leading-snug">
-                    {project.title}
-                  </h3>
-                  <span className="text-xs text-muted-foreground flex-shrink-0">
-                    {project.status}
-                  </span>
-                </div>
+              <h3 className="font-serif text-lg group-hover:text-accent transition-colors leading-snug">
+                  {project.title}
+                </h3>
                 <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
-                  {project.description}
+                  {project.tags.join(" · ")}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-1.5">
                   {project.tags.slice(0, 2).map((tag, tagIndex) => (
