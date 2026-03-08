@@ -100,7 +100,7 @@ const Index = () => {
                   {project.tags.join(" · ")}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-1.5">
-                  {project.tags.slice(0, 2).map((tag, tagIndex) => <span key={tagIndex} className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full">
+                  {project.tags.slice(0, 2).map((tag, tagIndex) => <span key={tagIndex} className="px-2.5 py-0.5 text-[0.65rem] tracking-wide bg-secondary/60 text-muted-foreground border border-border rounded-full">
                       {tag}
                     </span>)}
                 </div>
