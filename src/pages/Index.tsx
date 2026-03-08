@@ -63,7 +63,7 @@ const Index = () => {
           </header>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 fade-up delay-200">
-            {caseCards.map(caseItem => <Link key={caseItem.slug} to={`/cases/${caseItem.slug}`} className="group block p-5 bg-card border border-border hover:border-muted-foreground/40 transition-all duration-300">
+            {caseCards.map(caseItem => <Link key={caseItem.slug} to={`/cases/${caseItem.slug}`} className="group block p-5 bg-card border border-border hover:border-muted-foreground/40 hover:-translate-y-1.5 hover:shadow-lg hover:shadow-foreground/5 transition-all duration-200 ease-out">
                 <h3 className="font-serif text-lg group-hover:text-accent transition-colors leading-snug">
                   {caseItem.title}
                 </h3>
