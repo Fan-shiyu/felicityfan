@@ -90,9 +90,6 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
         )}
 
         <div className="md:max-w-2xl">
-          <div className="space-y-1 mb-4">
-            <div className="w-8 h-px bg-accent" />
-          </div>
           <h2 className="font-serif text-2xl md:text-3xl mb-4">
             {activity.title}
           </h2>
@@ -134,9 +131,6 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
       )}
 
       <div className={`${reverse && hasImages ? 'md:[direction:ltr]' : ''} ${!hasImages ? 'md:max-w-2xl' : ''}`}>
-        <div className="space-y-1 mb-4">
-          <div className="w-8 h-px bg-accent" />
-        </div>
         <h2 className="font-serif text-2xl md:text-3xl mb-4">
           {activity.title}
         </h2>
