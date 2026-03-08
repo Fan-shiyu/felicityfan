@@ -15,8 +15,8 @@ type ContactFormData = z.infer<typeof contactSchema>;
 const Index = () => {
   return <div>
       {/* Hero Section */}
-      <section id="home" className="min-h-[calc(100vh-5rem)] flex items-center">
-        <div className="container-narrow py-16">
+      <section id="home" className="flex items-center">
+        <div className="container-narrow py-10 md:py-14">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-16">
             {/* Profile Photo */}
             <div className="flex-shrink-0 fade-up">
