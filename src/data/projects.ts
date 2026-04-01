@@ -2,6 +2,8 @@ export interface ProjectCard {
   slug: string;
   title: string;
   tags: string[];
+  /** Optional one-line highlight for the featured project card */
+  summary?: string;
 }
 
 export interface ProjectLink {
@@ -29,6 +31,21 @@ export interface ProjectData {
 
 export const projectCards: ProjectCard[] = [
   {
+    slug: "air-cargo-capacity",
+    title:
+      "Turning Flight Events Into Cargo Intelligence — End-to-End Data Engineering",
+    tags: [
+      "Data Engineering",
+      "Air Cargo Analytics",
+      "PySpark",
+      "FastAPI",
+      "Streamlit",
+      "Cloud",
+    ],
+    summary:
+      "Production-style pipeline, interactive dashboard, and public REST API — from raw flight events to route-day cargo capacity.",
+  },
+  {
     slug: "multivariate-cosine-similarity",
     title: "Quantifying Similarity Between Datasets Through Projections",
     tags: ["Research", "Statistical Methods", "Python", "R", "Web Application"],
@@ -46,6 +63,81 @@ export const projectCards: ProjectCard[] = [
 ];
 
 export const projectDetails: Record<string, ProjectData> = {
+  "air-cargo-capacity": {
+    slug: "air-cargo-capacity",
+    title:
+      "Turning Flight Events Into Cargo Intelligence — End-to-End Data Engineering",
+    descriptor:
+      "Data Engineering · Air Cargo Analytics · Cloud Deployment · API Development",
+    links: [
+      { label: "GitHub", url: "https://github.com/Fan-shiyu/Air_Cargo_Capacity" },
+      {
+        label: "Live Dashboard",
+        url: "https://aircargocapacity.streamlit.app",
+      },
+      {
+        label: "Live API",
+        url: "https://web-production-5b39c.up.railway.app/docs",
+      },
+    ],
+    motivation:
+      "Air cargo capacity is one of the most fundamental metrics in commercial aviation. Airlines, freight forwarders, and logistics companies rely on it to price routes, plan networks, and negotiate contracts. Yet translating raw flight tracking data into reliable capacity figures is anything but straightforward.\n\nThis project was built in response to a real data engineering challenge in the air cargo industry. The goal was simple to state but technically demanding to execute:\n\nGiven historical flight event data and aircraft specifications, calculate the total cargo capacity available between airports on a given day.\n\nWhat began as a data processing task evolved into a fully deployed system — a production-grade pipeline, an interactive dashboard, and a public REST API.",
+    problemContext: [
+      "The raw data arrives in event-level format from a commercial flight tracking provider: one row per flight event (gate departure, takeoff, cruising, descent, landed, gate arrival). This is not the same as one row per flight. A single flight generates six or more events, and the dataset is a real-world subset — meaning missing events, unmatched aircraft types, and incomplete routes are the rule, not the exception.",
+      "How do you reconstruct a clean, flight-level picture from noisy, event-level data?",
+      "How do you calculate theoretical capacity in a way that is transparent about what is included and what is excluded?",
+      "How do you surface those results in a way that is useful to both technical and non-technical stakeholders?",
+      "The answer to all three required treating the problem not as a data cleaning exercise, but as a full data product.",
+    ],
+    methodology: [
+      "Data modelling and cleaning (PySpark) — Explicit schemas for both sources; LongType for flight_id; combined date/time into TimestampType; partitioned cleaned events by date. Flight reconstruction used conditional window aggregations (e.g. first with ignorenulls for stable fields, min(when(event == takeoff, timestamp)) for timings). Outputs written to Parquet for reuse without reprocessing raw CSV.",
+      "Capacity calculation and data quality (PySpark) — Every flight classified into one of six exclusion_reason categories (e.g. missing_equipment, unmatched_aircraft, valid) via waterfall logic, producing both flight_capacity_all and flight_capacity_valid. Gate-departure recovery when takeoff was missing (coalesce) reduced unnecessary exclusions; window-based deduplication handled duplicate flight_ids.",
+      "Dashboard and API (Streamlit + FastAPI) — Four-page Streamlit app with KPIs, routes, trends, and aircraft views; @st.cache_data for Parquet loads; three-level fallback (Parquet → derived aggregates → warning). FastAPI service loads route_day_capacity from S3 into memory on startup; validated IATA codes; schema aliases decouple pipeline names from the public API contract.",
+    ],
+    approach: [
+      "The solution was structured as a layered pipeline: each stage builds on the last, and each output is reusable rather than disposable.",
+    ],
+    implementationDesign: [
+      "Streamlit: Overview with five KPI cards, filterable route-level bar charts, daily capacity trends, and aircraft contribution analysis; CSV download on tables; graceful degradation when Parquet or aggregates are missing.",
+      "FastAPI: Public REST API on Railway; Swagger docs; in-memory data from S3 (BytesIO) for fast responses — callable from Python, JavaScript, Power BI, or Excel.",
+    ],
+    results: [
+      "A public API returning cargo capacity per route per day in milliseconds — integrable into airline tools, dashboards, or pipelines.",
+      "An interactive dashboard available without installation, with download on every table.",
+      "A transparent data quality view with exact exclusion counts per reason — auditable, not opaque.",
+      "Architecture aligned with production air cargo intelligence: tracking data, aircraft enrichment, route-day aggregation, API serving.",
+      "The most important analytical insight: theoretical capacity is rarely uniform across a route — exposing day-by-day variation makes the data actionable for commercial planning.",
+    ],
+    limitations: [
+      "The gap to a full production system is mainly infrastructural: message queues for event ingestion, stream processing for continuous computation, and a production-grade SaaS layer — not conceptual.",
+    ],
+    analysisToAction: [
+      "Parquet tables support further data science; the dashboard supports exploratory analysis for non-technical users; the API supports integration into other systems — a composable data product.",
+      "The pipeline mirrors how commercial platforms are structured at a smaller scale (batch rather than streaming ingestion), with a clear path to streaming and real-time expansion.",
+    ],
+    deliverables: [
+      "A PySpark pipeline producing four cleaned, modelled Parquet tables from raw CSV and JSON inputs.",
+      "A capacity engine with full data quality diagnostics and six-category flight classification.",
+      "A Streamlit dashboard on Streamlit Cloud with four analysis pages and CSV export.",
+      "A FastAPI service on Railway, reading from AWS S3, with Swagger documentation.",
+      "A public HTTP API usable from any client.",
+    ],
+    skills: [
+      "Data Pipeline Design",
+      "PySpark",
+      "Parquet",
+      "Schema Engineering",
+      "Window Functions",
+      "Data Quality Frameworks",
+      "FastAPI",
+      "REST API Design",
+      "AWS S3",
+      "Cloud Deployment",
+      "Streamlit",
+      "Air Cargo Analytics",
+      "Research-to-Product Translation",
+    ],
+  },
   "multivariate-cosine-similarity": {
     slug: "multivariate-cosine-similarity",
     title: "Quantifying Similarity Between Datasets Through Projections",

@@ -91,20 +91,31 @@ const Index = () => {
             </p>
           </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 fade-up delay-200">
-            {projectCards.map(project => <Link key={project.slug} to={`/projects/${project.slug}`} className="group block p-5 bg-card border border-border hover:border-muted-foreground/40 hover:-translate-y-1.5 hover:shadow-lg hover:shadow-foreground/5 transition-all duration-200 ease-out">
-              <h3 className="font-serif text-lg group-hover:text-accent transition-colors leading-snug">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 fade-up delay-200">
+            {projectCards.map((project) => (
+              <Link
+                key={project.slug}
+                to={`/projects/${project.slug}`}
+                className="group block p-5 bg-card border border-border hover:border-muted-foreground/40 hover:-translate-y-1.5 hover:shadow-lg hover:shadow-foreground/5 transition-all duration-200 ease-out h-full flex flex-col"
+              >
+                <h3 className="font-serif text-lg group-hover:text-accent transition-colors leading-snug">
                   {project.title}
                 </h3>
-                <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
-                  {project.tags.join(" · ")}
+                <p className="mt-2 text-sm text-muted-foreground line-clamp-2 flex-1">
+                  {project.summary ?? project.tags.join(" · ")}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-1.5">
-                  {project.tags.slice(0, 2).map((tag, tagIndex) => <span key={tagIndex} className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full">
+                  {project.tags.map((tag, tagIndex) => (
+                    <span
+                      key={tagIndex}
+                      className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full"
+                    >
                       {tag}
-                    </span>)}
+                    </span>
+                  ))}
                 </div>
-              </Link>)}
+              </Link>
+            ))}
           </div>
         </div>
       </section>
