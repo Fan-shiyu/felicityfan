@@ -43,7 +43,7 @@ export const projectCards: ProjectCard[] = [
       "Cloud",
     ],
     summary:
-      "Production-style pipeline, interactive dashboard, and public REST API — from raw flight events to route-day cargo capacity.",
+      "Production-style pipeline, interactive dashboard, and public REST API.",
   },
   {
     slug: "multivariate-cosine-similarity",
