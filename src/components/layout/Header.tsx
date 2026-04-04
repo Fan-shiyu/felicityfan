@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const navItems = [
   { id: "home", label: "Home" },
@@ -87,10 +87,15 @@ const Header = () => {
       }`}
     >
       <nav className="container-narrow">
-        <div className="flex items-center justify-between h-20">
-          <div className="w-8" /> {/* Spacer for balance */}
-          
-          <ul className="hidden md:flex items-center gap-8">
+        <div className="flex items-center h-20 w-full gap-4">
+          <Link
+            to="/"
+            className="font-serif text-lg tracking-tight text-foreground hover:text-accent transition-colors shrink-0"
+          >
+            Felicity Fan
+          </Link>
+
+          <ul className="hidden md:flex flex-1 justify-center items-center gap-8 min-w-0">
             {navItems.map((item) => (
               <li key={item.id || item.path}>
                 {item.path ? (
@@ -151,19 +156,26 @@ const MobileNav = ({ handleNavClick, isActive }: MobileNavProps) => {
   return (
     <div className="md:hidden">
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="p-2 -mr-2"
-        aria-label="Toggle menu"
+        aria-expanded={isOpen}
+        aria-label={isOpen ? "Close menu" : "Open menu"}
       >
-        <div className="w-5 flex flex-col gap-1">
+        <div className="w-5 h-3.5 flex flex-col justify-between">
           <span
-            className={`h-px bg-foreground transition-all duration-300 ${
-              isOpen ? "rotate-45 translate-y-1" : ""
+            className={`h-px w-full bg-foreground transition-all duration-300 origin-center ${
+              isOpen ? "translate-y-[7px] rotate-45" : ""
             }`}
           />
           <span
-            className={`h-px bg-foreground transition-all duration-300 ${
-              isOpen ? "-rotate-45" : ""
+            className={`h-px w-full bg-foreground transition-all duration-300 ${
+              isOpen ? "opacity-0 scale-0" : ""
+            }`}
+          />
+          <span
+            className={`h-px w-full bg-foreground transition-all duration-300 origin-center ${
+              isOpen ? "-translate-y-[7px] -rotate-45" : ""
             }`}
           />
         </div>

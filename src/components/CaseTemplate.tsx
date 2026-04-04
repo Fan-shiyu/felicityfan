@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, Github } from "lucide-react";
+import { Seo } from "@/components/Seo";
 export interface CaseData {
   slug: string;
   title: string;
@@ -20,6 +21,7 @@ const CaseTemplate = ({
   caseData
 }: CaseTemplateProps) => {
   return <div className="page-section">
+      <Seo title={caseData.title} description={caseData.descriptor} />
       <div className="container-narrow">
         <Link to="/#cases" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12 fade-up">
           <ArrowLeft className="w-4 h-4" />

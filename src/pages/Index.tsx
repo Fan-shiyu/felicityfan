@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { ArrowRight, Linkedin, Github, Mail } from "lucide-react";
@@ -6,6 +8,10 @@ import { z } from "zod";
 import profilePhoto from "@/assets/profile-photo.png";
 import { caseCards } from "@/data/cases";
 import { projectCards } from "@/data/projects";
+import { Seo } from "@/components/Seo";
+import { DEFAULT_SITE_DESCRIPTION, getAbsoluteUrl } from "@/lib/site";
+
+const VISIBLE_CARD_TAGS = 3;
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
   email: z.string().trim().email("Please enter a valid email").max(255, "Email must be less than 255 characters"),
@@ -13,7 +19,28 @@ const contactSchema = z.object({
 });
 type ContactFormData = z.infer<typeof contactSchema>;
 const Index = () => {
+  const siteUrl = getAbsoluteUrl("/");
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Felicity Fan",
+    jobTitle: "AI & Data Consultant",
+    url: siteUrl,
+    sameAs: [
+      "https://linkedin.com/in/felicityfan",
+      "https://github.com/Fan-shiyu",
+    ],
+  };
+
   return <div>
+      <Seo
+        title="Felicity Fan"
+        description={DEFAULT_SITE_DESCRIPTION}
+        appendSiteName={false}
+      />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(personJsonLd)}</script>
+      </Helmet>
       {/* Hero Section */}
       <section id="home" className="flex items-center">
         <div className="container-narrow py-10 md:py-14">
@@ -21,18 +48,30 @@ const Index = () => {
             {/* Profile Photo */}
             <div className="flex-shrink-0 fade-up">
               <div className="w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden">
-                <img src={profilePhoto} alt="Felicity Fan" className="w-full h-full object-cover object-center" />
+                <img
+                  src={profilePhoto}
+                  alt="Felicity Fan"
+                  width={224}
+                  height={224}
+                  className="w-full h-full object-cover object-center"
+                />
               </div>
             </div>
 
             {/* Text Content */}
             <div className="flex-1 text-center md:text-left">
               <p className="text-muted-foreground text-sm tracking-widest uppercase mb-4 fade-up">
-            </p>
-              
+                AI & Data Consultant
+              </p>
+
               <h1 className="fade-up delay-100 text-balance">Felicity Fan</h1>
-              
-              <p className="mt-6 text-lg text-muted-foreground max-w-2xl fade-up delay-200 leading-relaxed">An AI & Data Consultant focused on delivering AI-powered solutions that drive digital transformation. I create measurable impact by optimizing operations and improving customer experiences, translating complex business challenges into actionable, data-driven insights through scalable machine learning pipelines, advanced analytics, AI agents and LLMs, and real-time interactive dashboards.  </p>
+
+              <p className="mt-6 text-lg text-muted-foreground max-w-2xl fade-up delay-200 leading-relaxed">
+                I am an AI and data consultant focused on solutions that drive digital transformation—turning complex business challenges into clear, actionable insight.
+              </p>
+              <p className="mt-4 text-lg text-muted-foreground max-w-2xl fade-up delay-200 leading-relaxed">
+                My work spans scalable machine learning pipelines, advanced analytics, AI agents and LLMs, and real-time interactive dashboards, with a consistent emphasis on measurable impact on operations and customer experience.
+              </p>
               
               <div className="mt-10 flex flex-wrap justify-center md:justify-start gap-6 fade-up delay-300">
                 <a href="#cases" className="group inline-flex items-center gap-2 text-sm font-medium tracking-wide">
@@ -71,9 +110,14 @@ const Index = () => {
                   {caseItem.description}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-1.5">
-                  {caseItem.tags.slice(0, 2).map((tag, tagIndex) => <span key={tagIndex} className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full">
+                  {caseItem.tags.slice(0, VISIBLE_CARD_TAGS).map((tag, tagIndex) => (
+                    <span
+                      key={tagIndex}
+                      className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full"
+                    >
                       {tag}
-                    </span>)}
+                    </span>
+                  ))}
                 </div>
               </Link>)}
           </div>
@@ -105,7 +149,7 @@ const Index = () => {
                   {project.summary ?? project.tags.join(" · ")}
                 </p>
                 <div className="mt-4 flex flex-wrap gap-1.5">
-                  {project.tags.map((tag, tagIndex) => (
+                  {project.tags.slice(0, VISIBLE_CARD_TAGS).map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
                       className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full"
@@ -170,10 +214,7 @@ const ContactForm = () => {
     }
     setIsSubmitting(true);
     try {
-      const {
-        data,
-        error
-      } = await supabase.functions.invoke("send-contact-email", {
+      const { error } = await supabase.functions.invoke("send-contact-email", {
         body: result.data
       });
       if (error) throw error;
@@ -185,7 +226,7 @@ const ContactForm = () => {
       });
     } catch (err) {
       console.error("Failed to send message:", err);
-      alert("Failed to send message. Please try again.");
+      toast.error("Failed to send message. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -273,14 +314,4 @@ const ContactForm = () => {
       </div>
     </>;
 };
-const highlights = [{
-  stat: "10+",
-  label: "Years of experience"
-}, {
-  stat: "50+",
-  label: "Projects delivered"
-}, {
-  stat: "AI/ML",
-  label: "Expertise"
-}];
 export default Index;

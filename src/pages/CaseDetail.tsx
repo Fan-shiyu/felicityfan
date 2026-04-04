@@ -2,6 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect } from "react";
 import CaseTemplate from "@/components/CaseTemplate";
 import { caseDetails } from "@/data/cases";
+import { Seo } from "@/components/Seo";
 
 const CaseDetail = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -15,6 +16,7 @@ const CaseDetail = () => {
   if (!caseData) {
     return (
       <div className="page-section">
+        <Seo title="Case not found" description="The requested case study could not be found." />
         <div className="container-narrow text-center">
           <h1>Case not found</h1>
           <Link to="/#cases" className="text-accent hover:underline mt-4 inline-block">

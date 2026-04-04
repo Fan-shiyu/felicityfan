@@ -1,3 +1,5 @@
+import { Seo } from "@/components/Seo";
+import { DEFAULT_SITE_DESCRIPTION } from "@/lib/site";
 import toastmastersTeam from "@/assets/toastmasters-team.png";
 import pydataModerating from "@/assets/pydata-moderating.png";
 import pydataStage from "@/assets/pydata-stage.png";
@@ -38,6 +40,10 @@ export const activities: Activity[] = [
 const Activities = () => {
   return (
     <div className="page-section">
+      <Seo
+        title="Professional Activities"
+        description={DEFAULT_SITE_DESCRIPTION}
+      />
       <div className="container-narrow">
         <header className="max-w-3xl mb-16">
           <h1 className="fade-up">Activities</h1>

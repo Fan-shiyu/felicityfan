@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { projectDetails } from "@/data/projects";
+import { Seo } from "@/components/Seo";
 const ProjectDetail = () => {
   const {
     slug
@@ -14,6 +15,7 @@ const ProjectDetail = () => {
   }, [slug]);
   if (!project) {
     return <div className="page-section">
+        <Seo title="Project not found" description="The requested project could not be found." />
         <div className="container-narrow text-center">
           <h1>Project not found</h1>
           <Link to="/projects" className="text-accent hover:underline mt-4 inline-block">
@@ -23,6 +25,7 @@ const ProjectDetail = () => {
       </div>;
   }
   return <div className="page-section">
+      <Seo title={project.title} description={project.descriptor} />
       <div className="container-narrow">
         <Link to="/projects" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-12 fade-up">
           <ArrowLeft className="w-4 h-4" />

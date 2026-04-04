@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { projectCards } from "@/data/projects";
+import { Seo } from "@/components/Seo";
+import { DEFAULT_SITE_DESCRIPTION } from "@/lib/site";
+
+const VISIBLE_CARD_TAGS = 3;
 
 const Projects = () => {
   return (
     <div className="page-section">
+      <Seo title="Side Projects" description={DEFAULT_SITE_DESCRIPTION} />
       <div className="container-narrow">
         <header className="max-w-2xl mb-16">
           <h1 className="fade-up">Side Projects</h1>
@@ -31,7 +36,7 @@ const Projects = () => {
                 {project.summary ?? project.tags.join(" · ")}
               </p>
               <div className="mt-4 flex flex-wrap gap-1.5">
-                {project.tags.map((tag, tagIndex) => (
+                {project.tags.slice(0, VISIBLE_CARD_TAGS).map((tag, tagIndex) => (
                   <span
                     key={tagIndex}
                     className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full"

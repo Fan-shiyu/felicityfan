@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -6,7 +8,12 @@ const Footer = () => {
       <div className="container-narrow py-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div>
-            <p className="font-serif text-lg">Felicity Fan</p>
+            <Link
+              to="/"
+              className="font-serif text-lg hover:text-accent transition-colors inline-block"
+            >
+              Felicity Fan
+            </Link>
             <p className="text-sm text-muted-foreground mt-1">
               AI & Data Consultant
             </p>
