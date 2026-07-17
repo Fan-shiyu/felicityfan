@@ -1,3 +1,7 @@
+import budgetairDashboard from "@/assets/projects/budgetair/dashboard.png";
+import budgetairMcpServer from "@/assets/projects/budgetair/mcp-server.png";
+import budgetairArchitecture from "@/assets/projects/budgetair/architecture.svg";
+
 export interface ProjectCard {
   slug: string;
   title: string;
@@ -11,6 +15,15 @@ export interface ProjectLink {
   url: string;
 }
 
+export interface ProjectFigure {
+  /** Imported image asset (URL string resolved by Vite) */
+  src: string;
+  alt: string;
+  caption?: string;
+  /** "full" (default) spans the content column; "compact" constrains width and centers — for tall/near-square images */
+  size?: "full" | "compact";
+}
+
 export interface ProjectData {
   slug: string;
   title: string;
@@ -20,8 +33,12 @@ export interface ProjectData {
   problemContext: string[];
   coreIdea?: string;
   methodology?: string[];
+  /** Figures shown at the end of the Methodology section */
+  methodologyFigures?: ProjectFigure[];
   approach: string[];
   implementationDesign?: string[];
+  /** Figures shown at the end of the Implementation & Design section */
+  implementationDesignFigures?: ProjectFigure[];
   results: string[];
   limitations?: string[];
   analysisToAction?: string[];
@@ -49,6 +66,17 @@ export const projectCards: ProjectCard[] = [
     slug: "multivariate-cosine-similarity",
     title: "Quantifying Similarity Between Datasets Through Projections",
     tags: ["Research", "Statistical Methods", "Python", "R", "Web Application"],
+  },
+  {
+    slug: "budgetair-fee-analysis",
+    title: "Turning a Pricing Analysis into a Self-Serve Analytics Product",
+    tags: [
+      "Pricing Analytics",
+      "Interactive Dashboards",
+      "AI-Powered Analytics (MCP)",
+      "Docker",
+      "Cloud Deployment",
+    ],
   },
   {
     slug: "insurance-claim-optimization",
@@ -197,6 +225,96 @@ export const projectDetails: Record<string, ProjectData> = {
       "Python & R Package Development",
       "Data Visualization",
       "Research-to-Product Translation",
+    ],
+  },
+  "budgetair-fee-analysis": {
+    slug: "budgetair-fee-analysis",
+    title: "Turning a Pricing Analysis into a Self-Serve Analytics Product",
+    descriptor:
+      "Pricing Analytics · Interactive Dashboards · AI-Powered Analytics (MCP)",
+    links: [
+      {
+        label: "GitHub",
+        url: "https://github.com/Fan-shiyu/budgetair-channel-fee-analysis",
+      },
+      {
+        label: "Live Dashboard",
+        url: "https://budgetair-fee-analysis.streamlit.app",
+      },
+    ],
+    motivation:
+      "For online travel agencies, partner channel fees are a direct input to pricing — and small contractual changes can quietly reshape the economics of an entire sales channel. This project analyzes a real-world style scenario: a metasearch partner's fee change that looked cheaper on paper (lower rate, lower cap) but introduced a new minimum fee.\n\nI wanted to go beyond a one-off analysis and build the full stack a modern pricing team needs: a reproducible pipeline, an interactive dashboard for exploration, and an AI interface that lets non-technical stakeholders question the data in plain English.",
+    problemContext: [
+      "Using a year of flight-booking data (~120,000 orders across seven sales channels), the business needed to answer four questions:",
+      "What did the fee change actually cost, overall?",
+      "Which fare types won and lost — and why?",
+      "How should the pricing strategy respond?",
+      "Did the change spill over into the fee-free Direct channel?",
+      "The difficulty: the change coincided with seasonal shifts, so naive before/after comparisons would mislead.",
+    ],
+    methodology: [
+      "A counterfactual fee engine — I applied both fee schemes to the same orders, isolating the contract effect from seasonality entirely. Deriving the break-even ticket value ($262.50) revealed the core mechanism: the new minimum fee raised costs on 58.5% of the channel's orders — cheap tickets that were already barely profitable.",
+      "Behavioral evidence with a control channel — To measure the market response, I compared cheap-fare volumes against a comparable channel whose fee did not change — a difference-in-differences design in plain-English clothing. Result: a −58.5% collapse vs. −5.1% at the control, with most displaced demand never recaptured.",
+      "From analysis to product — I shipped the findings as a deployed Streamlit dashboard (six pages, every number recomputed from the data on load, certified by a 47-check automated browser QA suite) and a Docker-packaged MCP server on Google Cloud Run that connects to AI assistants like Claude. Nine curated tools answer stakeholder questions with correct numbers and charts — the AI narrates, deterministic code computes, so figures cannot be hallucinated. The server was validated with an automated golden-question evaluation (11/12, zero fabricated numbers) plus a manual production sign-off.",
+    ],
+    methodologyFigures: [
+      {
+        src: budgetairDashboard,
+        alt: "The BudgetAir Streamlit dashboard showing channel-fee impact figures.",
+        caption:
+          "The live dashboard: every figure recomputed from the order data on each load.",
+      },
+      {
+        src: budgetairMcpServer,
+        alt: "The BudgetAir MCP server answering a stakeholder question inside Claude.",
+        caption:
+          "The deployed MCP server in Claude: a stakeholder question answered with the server's own numbers and chart.",
+        size: "compact",
+      },
+    ],
+    approach: [
+      "End-to-end: from a rigorous counterfactual analysis to two deployed, self-serve products.",
+    ],
+    implementationDesign: [
+      "One pipeline, two products — A shared core module holds the fee logic, metrics and chart builders; the dashboard and the MCP server both import it, so the two products cannot disagree.",
+      "Containerized MCP server — Ships as a Docker image (a pinned python:3.12-slim base), built by Cloud Build and deployed on Google Cloud Run with scale-to-zero — €0 when idle — and it refuses to start if the data ever drifts from the validated numbers.",
+      "Guardrails keep the AI layer honest — one reproducible pipeline feeds both products; the AI narrates while deterministic code computes, so figures cannot be fabricated.",
+    ],
+    implementationDesignFigures: [
+      {
+        src: budgetairArchitecture,
+        alt: "Architecture diagram: one reproducible pipeline feeding both the dashboard and the MCP server.",
+        caption:
+          "Architecture: one reproducible pipeline feeds both products; guardrails keep the AI layer honest.",
+      },
+    ],
+    results: [
+      "The \"cheaper\" contract would have cost +$131,696 on the year's actual orders — 59% of what the channel earned before the change.",
+      "On a sub-$100 ticket, the effective fee jumped from 4.0% to 17.5% — turning the largest customer segment structurally loss-making.",
+      "After the change, the contract looked cost-neutral only because the punished cheap fares had already left the channel — a mix-shift trap that naive reporting would miss.",
+      "The fee-free Direct channel absorbed budget demand above its trend, worth ≥$10.50 in avoided fees per captured order.",
+    ],
+    analysisToAction: [
+      "Stop full-price competition on sub-$262 fares in the partner channel.",
+      "Reinvest the per-order savings on expensive fares into sharper long-haul prices.",
+      "Make the Direct site the designated home for budget fares.",
+      "Renegotiate a fare-tiered fee, using the +$131,696 counterfactual as leverage.",
+    ],
+    deliverables: [
+      "A reproducible Python pipeline producing an auditable order-level fact table and impact summary",
+      "A deployed, QA-certified Streamlit dashboard for interactive exploration",
+      "A deployed MCP server enabling plain-English, hallucination-safe Q&A for non-technical stakeholders",
+      "An executive presentation telling the full commercial story",
+    ],
+    skills: [
+      "Pricing Analytics",
+      "Counterfactual & Quasi-Experimental Analysis",
+      "Streamlit",
+      "MCP & LLM Tool Design",
+      "Docker",
+      "Cloud Deployment (Cloud Run)",
+      "Automated QA & LLM Evaluation",
+      "Executive Storytelling",
     ],
   },
   "insurance-claim-optimization": {

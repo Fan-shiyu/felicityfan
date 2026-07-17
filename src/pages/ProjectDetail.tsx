@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, ExternalLink } from "lucide-react";
-import { projectDetails } from "@/data/projects";
+import { projectDetails, type ProjectFigure } from "@/data/projects";
 import { Seo } from "@/components/Seo";
 const ProjectDetail = () => {
   const {
@@ -71,14 +71,14 @@ const ProjectDetail = () => {
             </section>}
 
           {/* Methodology */}
-          {project.methodology && <BulletSection title="Methodology" items={project.methodology} />}
+          {project.methodology && <BulletSection title="Methodology" items={project.methodology} figures={project.methodologyFigures} />}
 
           {/* Approach (shown only if it has meaningful content beyond methodology) */}
           {project.approach.length > 1 && <BulletSection title="Approach" items={project.approach} />}
           {project.approach.length === 1 && !project.methodology && <BulletSection title="Approach" items={project.approach} />}
 
           {/* Implementation & Design */}
-          {project.implementationDesign && <BulletSection title="Implementation & Design" items={project.implementationDesign} />}
+          {project.implementationDesign && <BulletSection title="Implementation & Design" items={project.implementationDesign} figures={project.implementationDesignFigures} />}
 
           {/* Results & Insights */}
           <BulletSection title="Results & Insights" items={project.results} />
@@ -111,10 +111,12 @@ const ProjectDetail = () => {
 };
 const BulletSection = ({
   title,
-  items
+  items,
+  figures
 }: {
   title: string;
   items: string[];
+  figures?: ProjectFigure[];
 }) => <section>
     <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
       {title}
@@ -125,5 +127,20 @@ const BulletSection = ({
           <span>{item}</span>
         </li>)}
     </ul>
+    {figures && figures.length > 0 && <FigureGroup figures={figures} />}
   </section>;
+const FigureGroup = ({
+  figures
+}: {
+  figures: ProjectFigure[];
+}) => <div className="mt-8 space-y-8">
+    {figures.map((figure, index) => <figure key={index} className={`space-y-3 ${figure.size === "compact" ? "max-w-xl mx-auto" : ""}`}>
+        <div className="overflow-hidden border border-border bg-card rounded-lg">
+          <img src={figure.src} alt={figure.alt} loading="lazy" className="w-full h-auto" />
+        </div>
+        {figure.caption && <figcaption className="text-sm text-muted-foreground italic text-center">
+            {figure.caption}
+          </figcaption>}
+      </figure>)}
+  </div>;
 export default ProjectDetail;
