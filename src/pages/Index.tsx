@@ -135,7 +135,7 @@ const Index = () => {
             </p>
           </header>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 fade-up delay-200">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 fade-up delay-200">
             {projectCards.map((project) => (
               <Link
                 key={project.slug}
