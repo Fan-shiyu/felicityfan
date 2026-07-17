@@ -5,6 +5,7 @@ const navItems = [
   { id: "home", label: "Home" },
   { id: "cases", label: "Company Cases" },
   { id: "projects", label: "Side Projects" },
+  { id: "hackathons", label: "Hackathon Projects" },
   { path: "/activities", label: "Professional Activities" },
   { id: "contact", label: "Contact" },
 ];
@@ -21,7 +22,7 @@ const Header = () => {
 
       // Only track sections on homepage
       if (location.pathname === "/") {
-        const sections = ["home", "cases", "projects", "contact"];
+        const sections = ["home", "cases", "projects", "hackathons", "contact"];
         const scrollPosition = window.scrollY + 100;
 
         for (const sectionId of sections.reverse()) {

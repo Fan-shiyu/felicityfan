@@ -11,6 +11,8 @@ import Projects from "./pages/Projects";
 import ProjectDetail from "./pages/ProjectDetail";
 import Activities from "./pages/Activities";
 import Cases from "./pages/Cases";
+import Hackathons from "./pages/Hackathons";
+import HackathonDetail from "./pages/HackathonDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,10 +30,16 @@ const App = () => (
               path="/cases/nestle-sustainability"
               element={<Navigate to="/cases/moonlit-legal-pipeline" replace />}
             />
+            <Route
+              path="/cases/houthoff-legal-intelligence"
+              element={<Navigate to="/hackathons/houthoff-legal-intelligence" replace />}
+            />
             <Route path="/cases" element={<Cases />} />
             <Route path="/cases/:slug" element={<CaseDetail />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/projects/:slug" element={<ProjectDetail />} />
+            <Route path="/hackathons" element={<Hackathons />} />
+            <Route path="/hackathons/:slug" element={<HackathonDetail />} />
             <Route path="/activities" element={<Activities />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -21,12 +21,6 @@ export const caseCards: CaseCard[] = [
     tags: ["Data Science", "Predictive Maintenance", "Infrastructure"],
   },
   {
-    slug: "houthoff-legal-intelligence",
-    title: "Houthoff — AI-Driven Domain Intelligence for Legal Due Diligence",
-    description: "Legal Tech · Generative AI · Risk Analytics",
-    tags: ["Generative AI", "Legal Tech", "Risk Analytics"],
-  },
-  {
     slug: "moonlit-legal-pipeline",
     title: "Moonlit — Automated Data Pipeline for European Legal Intelligence",
     description: "Legal Tech · Data Engineering · Web Scraping",
@@ -110,39 +104,6 @@ export const caseDetails: Record<string, CaseData> = {
       "Actionable insights for maintenance and operations planning",
     ],
     skills: ["Data Science", "Time Series Analysis", "Machine Learning", "Dashboard Design", "Infrastructure Analytics"],
-  },
-  "houthoff-legal-intelligence": {
-    slug: "houthoff-legal-intelligence",
-    title: "Houthoff — AI-Driven Domain Intelligence for Legal Due Diligence",
-    descriptor: "Legal Tech · Generative AI · Risk Analytics",
-    github: "https://github.com/Fan-shiyu/Nova_Dominium",
-    demo: "https://www.youtube.com/watch?v=LWCr_vuKkGE",
-    situation: "In modern M&A transactions, domain names are critical corporate assets. They underpin branding, digital operations, customer access, and email infrastructure. During legal due diligence, verifying whether all relevant domains are properly owned by the target company is essential — yet highly manual.\n\nAt Houthoff, one of the leading law firms in the Netherlands, legal teams often receive large spreadsheets containing hundreds of domains. Verifying ownership, expiration risk, and inconsistencies across registries requires time-consuming manual lookups across fragmented WHOIS and registry systems, increasing both workload and transaction risk.",
-    task: [
-      "Verify domain ownership at scale",
-      "Identify ownership and expiry risks early",
-      "Reduce manual effort while improving reliability and auditability of findings",
-    ],
-    approach: [
-      "Designed and built Nova Dominium, an AI-enhanced domain intelligence platform tailored to legal due-diligence workflows",
-      "Automated domain intelligence: Programmatic retrieval of WHOIS and RDAP data across multiple TLDs, enriched with DNS and TLS signals to improve ownership attribution and data completeness",
-      "Explainable risk classification: Collaborated closely with legal experts to translate domain governance and due-diligence requirements into transparent risk logic, classifying domains as low, medium, or high risk based on ownership alignment and expiry exposure",
-      "Integrated external data sources: Connected multiple external APIs to increase accuracy, handle privacy-protected records, and surface inconsistencies across registries",
-      "End-to-end legal workflow support: Delivered a web-based interface that ingests domain lists, presents structured results, highlights high-risk domains, and provides downloadable evidence (PDFs, exports) suitable for legal reporting",
-    ],
-    impact: [
-      "Reduced domain ownership review time by more than 80%, eliminating repetitive manual lookups",
-      "Enabled rapid identification of high-risk domains that could affect deal certainty or closing conditions",
-      "Improved consistency and completeness of due-diligence findings across large domain portfolios",
-      "Allowed legal teams to focus on risk analysis and decision-making, rather than data collection",
-    ],
-    delivered: [
-      "Nova Dominium: a scalable web-based domain intelligence platform",
-      "Automated WHOIS/RDAP retrieval and enrichment pipeline",
-      "Explainable domain risk-scoring logic aligned with legal standards",
-      "Exportable, audit-ready outputs for M&A and compliance reviews",
-    ],
-    skills: ["Generative AI", "Data Integration", "Risk Modeling", "Legal Tech", "API Engineering", "Explainable Decision Logic"],
   },
   "moonlit-legal-pipeline": {
     slug: "moonlit-legal-pipeline",
