@@ -39,12 +39,21 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [location.pathname]);
 
-  // Reset to top when navigating to a new page (not hash navigation)
+  // On navigation: scroll to the hashed section if present, otherwise reset to top
   useEffect(() => {
-    if (!location.hash) {
+    if (location.hash) {
+      const id = location.hash.slice(1);
+      // Wait for the target section to render before scrolling to it
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
       window.scrollTo(0, 0);
     }
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   const handleNavClick = (item: typeof navItems[0], e: React.MouseEvent) => {
     if (item.path) {
