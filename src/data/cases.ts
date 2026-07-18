@@ -1,4 +1,8 @@
 import { CaseData } from "@/components/CaseTemplate";
+import sensingCluesArchitecture from "@/assets/projects/SensingClues/architecture.svg";
+import sensingCluesMonthlyNdvi from "@/assets/projects/SensingClues/monthly_NDVI .png";
+import sensingCluesFrpMap from "@/assets/projects/SensingClues/frp_map.png";
+import sensingCluesCustomRanking from "@/assets/projects/SensingClues/custom ranking.png";
 
 export interface CaseCard {
   slug: string;
@@ -13,6 +17,12 @@ export const caseCards: CaseCard[] = [
     title: "ING — AI-Assisted Modernization of Large-Scale Legacy Software",
     description: "Banking · Generative AI · Software Modernization",
     tags: ["Generative AI", "Software Modernization", "Banking"],
+  },
+  {
+    slug: "sensingclues-conservation-ai",
+    title: "SensingClues — Conservation Monitoring Data Pipeline & AI Assistant",
+    description: "Conservation Tech · Geospatial AI · LLM Agent Design · Data Engineering",
+    tags: ["Geospatial AI", "LLM Agent Design", "Data Engineering"],
   },
   {
     slug: "prorail-predictive-monitoring",
@@ -79,6 +89,79 @@ export const caseDetails: Record<string, CaseData> = {
       "Practical recommendations for GenAI adoption in legacy modernization",
     ],
     skills: ["Generative AI", "Prompt Engineering", "Software Modernization", "Python", "PL/SQL", "Java"],
+  },
+  "sensingclues-conservation-ai": {
+    slug: "sensingclues-conservation-ai",
+    title: "SensingClues — Conservation Monitoring Data Pipeline & AI Assistant",
+    descriptor: "Conservation Tech · Geospatial AI · LLM Agent Design · Data Engineering",
+    links: [
+      { label: "GitHub (pipeline)", url: "https://github.com/Fan-shiyu/environmental-ts-data-pipeline" },
+      { label: "GitHub (app)", url: "https://github.com/SensingClues/environmental-time-series" },
+    ],
+    situation: "SensingClues is a conservation technology NGO that provides data tools to wildlife rangers and field practitioners across Africa and Europe. Their existing R Shiny application displayed satellite vegetation and fire data through static, predefined dashboard views — but conservation managers with limited technical backgrounds struggled to extract specific insights without navigating multiple tabs and configuring filters manually. They requested a natural language interface that could answer data questions directly, without requiring dashboard expertise.\n\nThis project was built as a data-for-good initiative through CorrelAid Netherlands, extending a Phase 1 Shiny application built by a previous team. Phase 2 introduced the full backend pipeline, a production-grade data API, and a chart-capable AI assistant — transforming the app from a static application into a conversational data analysis tool.",
+    taskIntro: "Design and build a full-stack data system that:",
+    task: [
+      "Automates monthly satellite data ingestion from Google Earth Engine with no manual steps",
+      "Pre-computes analytical products (NDVI time series, anomalies, fire return periods, phenology) and serves them over a REST API",
+      "Powers a resilient three-path data loading architecture in the Shiny app (API → Parquet → raw raster fallback)",
+      "Enables a conversational AI assistant that answers natural language questions about vegetation and fire data — returning interactive charts, maps, and tables inline in the conversation",
+    ],
+    approach: [],
+    approachContent: [
+      { type: "heading", text: "Automated data pipeline" },
+      { type: "paragraph", text: "I built a Python pipeline that fetches monthly GeoTIFF rasters from Google Earth Engine (Sentinel-2 NDVI, MODIS NDVI, MODIS burned area) and pre-computes them into Parquet tables and GeoJSON products through two preprocessing passes:" },
+      { type: "bullets", items: [
+        "Pass A (monthly): NDVI time series, historical baselines, anomalies, per-class statistics, burned area summaries",
+        "Pass B (annual): resilience rankings, phenological events, vegetation delta maps, fire return period GeoJSON",
+      ] },
+      { type: "paragraph", text: "Three GitHub Actions workflows automate the full pipeline on a monthly and annual schedule, with GEE service account authentication, failure alerting via auto-opened GitHub issues, and concurrent-run protection." },
+      { type: "heading", text: "FastAPI data service" },
+      { type: "paragraph", text: "A read-only FastAPI service exposes 15+ endpoints covering NDVI time series, burned area, anomaly, phenology, delta grids, and geometry. Responses use a compact 2D grid format (~7× smaller than naive per-pixel JSON) and are cached in memory (1 hour for time-series, 24 hours for geometry). The service supports both a Shiny-oriented table format and an enriched agent format, and requires no GEE calls at runtime — it reads only pre-computed outputs." },
+      { type: "heading", text: "AI Assistant — chart-capable conversational agent" },
+      { type: "paragraph", text: "The core architectural insight behind the AI Assistant: instead of having the LLM generate chart code, the agent returns structured JSON references that trigger the existing Shiny plotting functions. The application became the rendering engine; the agent became the reasoning layer. This pattern means any team with a code-based analytics application (Shiny, Streamlit, Dash) can augment it with a conversational agent without rewriting their visualisation layer." },
+      { type: "paragraph", text: "The agent supports two response modes:" },
+      { type: "bullets", items: [
+        "Mode A — chart references: the agent returns a structured reference (chart type, endpoint, params) and the Shiny app renders the result using its existing Plotly, Leaflet, or static image functions. Supports 10 chart types including timeseries, anomaly heatmaps, phenology charts, fire return period maps, delta maps, and multi-year spatial comparison images.",
+        "Mode B — agent-computed charts: for custom ranking, filtering, or aggregation questions not covered by existing chart types, the agent computes a summary from its tool results and returns inline data rendered as a simple bar, line, or table.",
+      ] },
+      { type: "paragraph", text: "The agent uses a tool-calling loop over the FastAPI service via LiteLLM, supporting both Anthropic Claude and OpenAI GPT-4o. Tool description hooks — embedding visual output instructions directly in tool descriptions — proved significantly more reliable than system prompt rules alone for triggering the correct chart type consistently." },
+    ],
+    approachFigures: [
+      {
+        src: sensingCluesArchitecture,
+        alt: "End-to-end architecture: Google Earth Engine to Python preprocessing to FastAPI data service to R Shiny app and AI agent.",
+        caption: "End-to-end pipeline: Google Earth Engine → Python preprocessing → FastAPI data service → R Shiny app + AI agent.",
+      },
+      {
+        src: sensingCluesMonthlyNdvi,
+        alt: "The AI assistant rendering a monthly NDVI trend for 2023 as an interactive Plotly chart.",
+        caption: "Mode A: monthly NDVI trend for 2023 highlighted against the historical baseline, rendered inline as an interactive Plotly chart.",
+      },
+      {
+        src: sensingCluesFrpMap,
+        alt: "The AI assistant rendering an interactive Leaflet fire return period map.",
+        caption: "Mode A spatial: the agent returns an frp_map reference and the app renders an interactive Leaflet fire return period map, showing which zones burn most frequently.",
+      },
+      {
+        src: sensingCluesCustomRanking,
+        alt: "The AI assistant answering a custom ranking question with an inline bar chart.",
+        caption: "Mode B: for a custom ranking question (\"which 3 years had the highest burned area?\"), the agent computes the result from its tool data and returns inline chart data rendered as a simple bar chart.",
+      },
+    ],
+    impact: [
+      "Conservation practitioners can now ask natural language questions about satellite vegetation and fire data — receiving answers as text, interactive charts, spatial maps, or tables — without navigating a complex dashboard or requiring technical training.",
+      "The automated pipeline eliminates manual data processing: monthly satellite data is fetched, preprocessed, and deployed with no human intervention, keeping the application current for active field use across Zambia Mponda and West Lunga National Park.",
+      "The \"chart reference\" architecture — where the agent orchestrates existing application functions rather than generating chart code — provides a reusable pattern for augmenting any code-based analytics application with a conversational agent layer.",
+      "The project demonstrates that NGO-deployed AI systems can match the technical depth of commercial products while serving conservation and social-good missions that commercial investment rarely reaches.",
+    ],
+    delivered: [
+      "Automated Python data pipeline (GEE → Parquet/GeoJSON) with GitHub Actions CI/CD (monthly + annual)",
+      "FastAPI data service with 15+ endpoints, in-memory caching, and compact grid format",
+      "Three-path resilient data loading architecture in the R Shiny application",
+      "AI Assistant tab with Mode A chart references (10 chart types) and Mode B agent-computed charts/tables",
+      "Tool description hooks for reliable structured agent output — validated across 28 test scenarios",
+    ],
+    skills: ["LLM Agent Design", "FastAPI", "Python", "R / Shiny", "Google Earth Engine", "Geospatial Data", "GitHub Actions", "MLOps", "LiteLLM", "Plotly", "Leaflet"],
   },
   "prorail-predictive-monitoring": {
     slug: "prorail-predictive-monitoring",
