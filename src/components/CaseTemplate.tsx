@@ -18,7 +18,11 @@ export interface CaseData {
   demo?: string;
   liveUrl?: string;
   situation: string;
+  /** Optional lead-in sentence shown above the Task bullets */
+  taskIntro?: string;
   task: string[];
+  /** Optional lead-in sentence shown above the Approach bullets */
+  approachIntro?: string;
   approach: string[];
   /** Optional figure shown at the end of the Approach section (e.g. an architecture diagram) */
   approachFigure?: CaseFigure;
@@ -89,6 +93,9 @@ const CaseTemplate = ({
             <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
               Task
             </h2>
+            {caseData.taskIntro && <p className="text-base text-muted-foreground leading-relaxed max-w-3xl mb-4">
+                {caseData.taskIntro}
+              </p>}
             <ul className="space-y-2 max-w-3xl">
               {caseData.task.map((item, index) => <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
                   <span className="text-accent mt-1.5">•</span>
@@ -102,6 +109,9 @@ const CaseTemplate = ({
             <h2 className="text-lg font-medium mb-4 pb-4 border-b border-border">
               Approach
             </h2>
+            {caseData.approachIntro && <p className="text-base text-muted-foreground leading-relaxed max-w-3xl mb-4">
+                {caseData.approachIntro}
+              </p>}
             <ul className="space-y-2 max-w-3xl">
               {caseData.approach.map((item, index) => <li key={index} className="text-muted-foreground leading-relaxed flex items-start gap-3">
                   <span className="text-accent mt-1.5">•</span>

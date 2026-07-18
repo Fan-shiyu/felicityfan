@@ -38,6 +38,12 @@ export const caseCards: CaseCard[] = [
     description: "Chemical Analytics · Applied Machine Learning · Data Automation",
     tags: ["Applied ML", "Chemical Analytics", "Data Automation"],
   },
+  {
+    slug: "deep-canvassing-impact",
+    title: "Deep Canvassing Nederland — Data Analysis & Dashboard for Civic Impact Measurement",
+    description: "Civic Tech · Social Impact · Data Analysis · NLP · Geospatial Analysis",
+    tags: ["Social Impact", "NLP", "Geospatial Analysis"],
+  },
 ];
 
 export const caseDetails: Record<string, CaseData> = {
@@ -195,5 +201,38 @@ export const caseDetails: Record<string, CaseData> = {
       "Clear, reproducible workflow aligned with domain requirements",
     ],
     skills: ["Applied Machine Learning", "Signal Alignment", "Data Pipelines", "Python"],
+  },
+  "deep-canvassing-impact": {
+    slug: "deep-canvassing-impact",
+    title: "Deep Canvassing Nederland — Data Analysis & Dashboard for Civic Impact Measurement",
+    descriptor: "Civic Tech · Social Impact · Data Analysis · NLP · Geospatial Analysis",
+    situation: "Deep Canvassing Nederland is a Dutch non-profit that trains volunteers to hold structured, empathy-driven conversations with members of the public on immigration — one of the most divisive social topics in the Netherlands. Over two years, around a hundred volunteers logged thousands of door knocks and conversations through a custom-built web app, recording participant attitude scores before and after each conversation.\n\nDespite the richness of this dataset, the organisation had no systematic way to evaluate campaign effectiveness, understand geographic patterns, or identify what made certain conversations more impactful than others. Decisions about where to direct volunteer effort remained largely intuition-driven.",
+    taskIntro: "As part of a CorrelAid Netherlands data team, I was tasked with:",
+    task: [
+      "Evaluating whether deep canvassing conversations produce measurable shifts in immigration attitudes,",
+      "Identifying geographic and contextual factors associated with greater impact,",
+      "Building tools that make ongoing insights accessible to a non-technical organisational team.",
+    ],
+    approachIntro: "I contributed to an end-to-end data analysis and tooling project across three workstreams:",
+    approach: [
+      "Quantitative impact analysis: Analysed before-and-after attitude scores across the full dataset to measure the direction, magnitude, and consistency of attitude change following deep canvassing conversations. Applied statistical techniques to distinguish genuine signal from noise and assess asymmetry in the distribution of score changes.",
+      "Geospatial analysis: Joined canvassing activity data with postcode-level 2025 election results to map regional variation in attitudes and effectiveness. Used GeoPandas and Plotly to build interactive maps revealing the relationship between local political context and canvassing outcomes.",
+      "Sentiment and text analysis: Applied Dutch NLP models to volunteers' free-text conversation reflections to identify recurring themes and patterns in what drives successful conversations. Used SHAP for model interpretability and Dutch-language stopword filtering to improve signal quality.",
+      "Interactive dashboard: Built a multi-page Streamlit dashboard — deployed for internal use — giving the organisation a live, filterable view of migration scores, geographic coverage, and conversation trends over time. The dashboard is designed for ongoing monitoring as new data is collected.",
+    ],
+    impact: [
+      "Demonstrated that deep canvassing conversations are associated with a consistent, positive directional shift in immigration attitudes — with upward shifts substantially outnumbering downward ones.",
+      "Revealed that canvassing effectiveness varies meaningfully by region, with geographic and political context predicting both starting attitudes and the likelihood of attitude change — providing an evidence base for more targeted volunteer deployment.",
+      "Delivered a reusable dashboard enabling the organisation to independently monitor campaign effectiveness on a rolling basis, without reliance on external analysts.",
+      "Produced a structured insights report and data collection recommendations, directly informing the organisation's operational and strategic decisions.",
+    ],
+    delivered: [
+      "Multi-page interactive Streamlit dashboard for internal monitoring",
+      "Comprehensive data analysis report for non-technical organisational leadership",
+      "Geospatial analysis linking canvassing patterns to regional political context",
+      "NLP-based analysis of volunteer conversation reflections",
+      "Data collection recommendations to improve future analytical capability",
+    ],
+    skills: ["Python", "Pandas", "Streamlit", "GeoPandas", "Plotly", "NLP", "SHAP", "Git", "Data Visualisation", "Geospatial Analysis", "Social Impact Measurement"],
   },
 };
