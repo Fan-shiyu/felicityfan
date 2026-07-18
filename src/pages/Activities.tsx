@@ -1,5 +1,6 @@
 import { Seo } from "@/components/Seo";
 import { DEFAULT_SITE_DESCRIPTION } from "@/lib/site";
+import pyladiesWorkshop from "@/assets/pyladies-workshop.avif";
 import hack4herStage from "@/assets/hack4her-stage.png";
 import toastmastersTeam from "@/assets/toastmasters-team.png";
 import pydataModerating from "@/assets/pydata-moderating.png";
@@ -15,6 +16,13 @@ export interface Activity {
 }
 
 export const activities: Activity[] = [
+  {
+    id: "pyladies-amsterdam",
+    title: "PyLadies Amsterdam 2026 — Workshop Design & Delivery",
+    description: "Designed and delivered \"Building with Coding Agents — Ship a Python Streamlit Dashboard,\" a 90-minute hands-on online workshop for PyLadies Amsterdam. Structured as a guided learning journey for a mixed-experience audience, the session covered 16 concepts across five hands-on exercises — from writing effective briefs, project context, and guardrails to subagents, MCP, verification loops, and evaluation — with participants directing coding agents themselves to build a working dashboard from provided data. The workshop was built with the methods it teaches: every exercise was dry-run end-to-end with a coding agent before the event, and all materials were open-sourced as a self-paced course that anyone in the community can run, reuse, or teach from. Sharing knowledge with fellow practitioners is something I genuinely enjoy — through workshops like this, I aim to make emerging AI engineering practices accessible, practical, and welcoming for the data community.",
+    images: [pyladiesWorkshop],
+    layout: "horizontal",
+  },
   {
     id: "hack4her",
     title: "Hack4Her 2026 — Keynote Speaker",
