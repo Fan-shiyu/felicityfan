@@ -13,6 +13,8 @@ export interface Activity {
   description: string;
   images: string[];
   layout?: "horizontal" | "vertical";
+  /** When true, the image is top-aligned with the description text (title sits above as a header) */
+  alignImageWithContent?: boolean;
 }
 
 export const activities: Activity[] = [
@@ -22,6 +24,7 @@ export const activities: Activity[] = [
     description: "Designed and delivered \"Building with Coding Agents — Ship a Python Streamlit Dashboard,\" a 90-minute hands-on online workshop for PyLadies Amsterdam. Structured as a guided learning journey for a mixed-experience audience, the session covered 16 concepts across five exercises, with participants directing coding agents themselves to build a working dashboard. All materials were open-sourced as a self-paced course anyone can run, reuse, or teach from. Sharing knowledge with fellow practitioners is something I genuinely enjoy — through workshops like this, I aim to make emerging AI engineering practices accessible, practical, and welcoming for the data community.",
     images: [pyladiesWorkshop],
     layout: "horizontal",
+    alignImageWithContent: true,
   },
   {
     id: "hack4her",
@@ -29,6 +32,7 @@ export const activities: Activity[] = [
     description: "Invited keynote speaker at Hack4Her 2026, the only female-focused student hackathon in the Netherlands, held at Vrije Universiteit Amsterdam. My talk, \"Women in Tech: Data, Stories, and the Future of AI,\" wove together data on the gender gap, personal reflections on navigating tech as a woman, and a hands-on introduction to AI tools for the hackathon. I closed with an AI-generated video I produced, imagining what a female tech career could look like five years from now. This talk reflects my commitment to making technical knowledge accessible and advocating for greater inclusion in the field.",
     images: [hack4herStage],
     layout: "horizontal",
+    alignImageWithContent: true,
   },
   {
     id: "toastmasters",
@@ -43,6 +47,7 @@ export const activities: Activity[] = [
     description: "Co-organizer and co-moderator of PyData Eindhoven 2025, contributing to the planning and delivery of a large-scale data and AI conference over several months of preparation. During the event, I co-moderated multiple technical sessions, introducing speakers and their topics, managing time and session flow, and facilitating audience Q&A. This role required clear communication, real-time coordination, and the ability to maintain an engaging and professional atmosphere for both speakers and attendees.",
     images: [pydataModerating, pydataStage],
     layout: "horizontal",
+    alignImageWithContent: true,
   },
   {
     id: "tilburg-talk",
@@ -84,6 +89,29 @@ const Activities = () => {
   );
 };
 
+const ActivityImages = ({ activity }: { activity: Activity }) =>
+  activity.images.length === 1 ? (
+    <div className="overflow-hidden rounded-lg">
+      <img
+        src={activity.images[0]}
+        alt={activity.title}
+        className="w-full h-auto object-cover"
+      />
+    </div>
+  ) : (
+    <div className="grid grid-cols-2 gap-3">
+      {activity.images.map((image, idx) => (
+        <div key={idx} className="overflow-hidden rounded-lg">
+          <img
+            src={image}
+            alt={`${activity.title} ${idx + 1}`}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+  );
+
 interface ActivityBlockProps {
   activity: Activity;
   reverse?: boolean;
@@ -115,6 +143,28 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
           <h2 className="font-serif text-2xl md:text-3xl mb-4">
             {activity.title}
           </h2>
+          <p className="text-muted-foreground leading-relaxed">
+            {activity.description}
+          </p>
+        </div>
+      </article>
+    );
+  }
+
+  // Content-aligned layout: half-width title stays in the text column, image
+  // top-aligned with the description (title sits above the text, not the image)
+  if (activity.alignImageWithContent && hasImages) {
+    const textCol = reverse ? "md:col-start-1" : "md:col-start-2";
+    const imageCol = reverse ? "md:col-start-2" : "md:col-start-1";
+    return (
+      <article className="grid gap-y-4 gap-x-8 md:gap-x-12 md:grid-cols-2 md:grid-rows-[auto_1fr] items-start">
+        <h2 className={`font-serif text-2xl md:text-3xl md:row-start-1 ${textCol}`}>
+          {activity.title}
+        </h2>
+        <div className={`md:row-start-2 md:mt-[7px] ${imageCol}`}>
+          <ActivityImages activity={activity} />
+        </div>
+        <div className={`md:row-start-2 ${textCol}`}>
           <p className="text-muted-foreground leading-relaxed">
             {activity.description}
           </p>
