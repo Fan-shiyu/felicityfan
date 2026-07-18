@@ -1,5 +1,6 @@
 import { Seo } from "@/components/Seo";
 import { DEFAULT_SITE_DESCRIPTION } from "@/lib/site";
+import hack4herStage from "@/assets/hack4her-stage.png";
 import toastmastersTeam from "@/assets/toastmasters-team.png";
 import pydataModerating from "@/assets/pydata-moderating.png";
 import pydataStage from "@/assets/pydata-stage.png";
@@ -14,6 +15,13 @@ export interface Activity {
 }
 
 export const activities: Activity[] = [
+  {
+    id: "hack4her",
+    title: "Hack4Her 2026 — Keynote Speaker",
+    description: "Invited keynote speaker at Hack4Her 2026, the only female-focused student hackathon in the Netherlands, held at Vrije Universiteit Amsterdam. My talk, \"Women in Tech: Data, Stories, and the Future of AI,\" wove together data on the gender gap, personal reflections on navigating tech as a woman, and a hands-on introduction to AI tools for the hackathon. I closed with an AI-generated video I produced, imagining what a female tech career could look like five years from now. This talk reflects my commitment to making technical knowledge accessible and advocating for greater inclusion in the field.",
+    images: [hack4herStage],
+    layout: "horizontal",
+  },
   {
     id: "toastmasters",
     title: "Toastmasters Den Bosch — Communication & Leadership Development",
