@@ -2,20 +2,26 @@ import { Seo } from "@/components/Seo";
 import { DEFAULT_SITE_DESCRIPTION } from "@/lib/site";
 import pyladiesWorkshop from "@/assets/pyladies-workshop.avif";
 import hack4herStage from "@/assets/hack4her-stage.png";
+import hack4herKeynote from "@/assets/hack4her-keynote.jpg";
 import toastmastersTeam from "@/assets/toastmasters-team.png";
 import pydataModerating from "@/assets/pydata-moderating.png";
 import pydataStage from "@/assets/pydata-stage.png";
 import tilburgTalk from "@/assets/tilburg-talk.png";
 
+export type ActivityImage = string | { src: string; /** Tailwind object-position class, e.g. "object-top" */ position?: string };
+
 export interface Activity {
   id: string;
   title: string;
   description: string;
-  images: string[];
+  images: ActivityImage[];
   layout?: "horizontal" | "vertical";
   /** When true, the image is top-aligned with the description text (title sits above as a header) */
   alignImageWithContent?: boolean;
 }
+
+const imgSrc = (image: ActivityImage) => (typeof image === "string" ? image : image.src);
+const imgPosition = (image: ActivityImage) => (typeof image === "string" ? "" : image.position ?? "");
 
 export const activities: Activity[] = [
   {
@@ -30,7 +36,7 @@ export const activities: Activity[] = [
     id: "hack4her",
     title: "Hack4Her 2026 — Keynote Speaker",
     description: "Invited keynote speaker at Hack4Her 2026, the only female-focused student hackathon in the Netherlands, held at Vrije Universiteit Amsterdam. My talk, \"Women in Tech: Data, Stories, and the Future of AI,\" wove together data on the gender gap, personal reflections on navigating tech as a woman, and a hands-on introduction to AI tools for the hackathon. I closed with an AI-generated video I produced, imagining what a female tech career could look like five years from now. This talk reflects my commitment to making technical knowledge accessible and advocating for greater inclusion in the field.",
-    images: [hack4herStage],
+    images: [hack4herStage, { src: hack4herKeynote, position: "object-top" }],
     layout: "horizontal",
     alignImageWithContent: true,
   },
@@ -93,19 +99,19 @@ const ActivityImages = ({ activity }: { activity: Activity }) =>
   activity.images.length === 1 ? (
     <div className="overflow-hidden rounded-lg">
       <img
-        src={activity.images[0]}
+        src={imgSrc(activity.images[0])}
         alt={activity.title}
-        className="w-full h-auto object-cover"
+        className={`w-full h-auto object-cover ${imgPosition(activity.images[0])}`}
       />
     </div>
   ) : (
     <div className="grid grid-cols-2 gap-3">
       {activity.images.map((image, idx) => (
-        <div key={idx} className="overflow-hidden rounded-lg">
+        <div key={idx} className="overflow-hidden rounded-lg aspect-square">
           <img
-            src={image}
+            src={imgSrc(image)}
             alt={`${activity.title} ${idx + 1}`}
-            className="w-full h-full object-cover"
+            className={`w-full h-full object-cover ${imgPosition(image)}`}
           />
         </div>
       ))}
@@ -130,9 +136,9 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
             {activity.images.map((image, idx) => (
               <div key={idx} className="overflow-hidden rounded-lg">
                 <img
-                  src={image}
+                  src={imgSrc(image)}
                   alt={`${activity.title} ${idx + 1}`}
-                  className="w-full h-auto object-cover"
+                  className={`w-full h-auto object-cover ${imgPosition(image)}`}
                 />
               </div>
             ))}
@@ -181,19 +187,19 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
           {activity.images.length === 1 ? (
             <div className="overflow-hidden rounded-lg">
               <img
-                src={activity.images[0]}
+                src={imgSrc(activity.images[0])}
                 alt={activity.title}
-                className="w-full h-auto object-cover"
+                className={`w-full h-auto object-cover ${imgPosition(activity.images[0])}`}
               />
             </div>
           ) : (
             <div className="grid grid-cols-2 gap-3">
               {activity.images.map((image, idx) => (
-                <div key={idx} className="overflow-hidden rounded-lg">
+                <div key={idx} className="overflow-hidden rounded-lg aspect-square">
                   <img
-                    src={image}
+                    src={imgSrc(image)}
                     alt={`${activity.title} ${idx + 1}`}
-                    className="w-full h-full object-cover"
+                    className={`w-full h-full object-cover ${imgPosition(image)}`}
                   />
                 </div>
               ))}
