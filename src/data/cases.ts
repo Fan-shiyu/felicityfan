@@ -3,6 +3,7 @@ import sensingCluesArchitecture from "@/assets/projects/SensingClues/architectur
 import sensingCluesMonthlyNdvi from "@/assets/projects/SensingClues/monthly_NDVI .png";
 import sensingCluesFrpMap from "@/assets/projects/SensingClues/frp_map.png";
 import sensingCluesCustomRanking from "@/assets/projects/SensingClues/custom ranking.png";
+import growingRootsArchitecture from "@/assets/projects/GrowingRoots/architecture.svg";
 
 export interface CaseCard {
   slug: string;
@@ -23,6 +24,12 @@ export const caseCards: CaseCard[] = [
     title: "SensingClues — Conservation Monitoring Data Pipeline & AI Assistant",
     description: "Conservation Tech · Geospatial AI · LLM Agent Design · Data Engineering",
     tags: ["Geospatial AI", "LLM Agent Design", "Data Engineering"],
+  },
+  {
+    slug: "growing-roots-azc-data-platform",
+    title: "Growing Roots — Data Pipeline, Web App & Impact Dashboard for AZC Community Gardens",
+    description: "NGO Tech · Data Engineering · Full-Stack Development · Business Intelligence",
+    tags: ["Data Engineering", "Full-Stack Development", "Business Intelligence"],
   },
   {
     slug: "prorail-predictive-monitoring",
@@ -162,6 +169,42 @@ export const caseDetails: Record<string, CaseData> = {
       "Tool description hooks for reliable structured agent output — validated across 28 test scenarios",
     ],
     skills: ["LLM Agent Design", "FastAPI", "Python", "R / Shiny", "Google Earth Engine", "Geospatial Data", "GitHub Actions", "MLOps", "LiteLLM", "Plotly", "Leaflet"],
+  },
+  "growing-roots-azc-data-platform": {
+    slug: "growing-roots-azc-data-platform",
+    title: "Growing Roots — Data Pipeline, Web App & Impact Dashboard for AZC Community Gardens",
+    descriptor: "NGO Tech · Data Engineering · Full-Stack Development · Business Intelligence",
+    github: "https://github.com/CorrelAidxNL/growing-roots",
+    situation: "Growing Roots, a program of the Dutch NGO The Present, runs community gardens at asylum seeker centres (AZCs) across two locations in Amsterdam. Gardeners recorded weekly attendance, activities, and donations by hand on paper, then transcribed the records into loose spreadsheets after the fact, a process prone to missed sessions, inconsistent formats, and transcription errors, and one that gave the organisation no reliable way to report on its own impact to funders and stakeholders.",
+    task: [
+      "As Project Lead for a CorrelAid Netherlands team, design and build a complete data infrastructure for the program: a structured database, an automated pipeline to consolidate a year of fragmented historical records, a web application for real-time field data entry, and a companion dashboard, all built to scale cleanly as the program adds new garden locations, rather than being rebuilt each time it grows.",
+    ],
+    approach: [
+      "Database design: a six-tab relational schema (Participants, Session Agenda, Attendance, Ecological, Donations, Audit Log) with a clear separation between auto-generated fields (IDs, timestamps, computed flags like \"new this session\") and gardener-entered fields, with fully protected ranges so every write is forced through the application layer rather than direct spreadsheet editing.",
+      "Automation layer: replaced the paper-to-spreadsheet workflow entirely. A gardener now enters session data once, in the field, through the web app: the pipeline validates, structures, and writes it directly into the database with zero manual re-keying. A companion Python pipeline also consolidated a year of fragmented historical records (~171 participants, ~106 sessions, ~2,600+ attendance rows across two sites) into the new schema, including name-matching logic to preserve participant continuity across years.",
+      "Web application: a Google Apps Script app giving gardeners a guided weekly submission flow (attendance, donations, photos, quotes) with offline support (submissions queue locally and sync automatically once back online), and giving coordinators season-planning tools and settings management, with role- and location-based access control throughout.",
+      "Built for scale: locations are never hardcoded. Both the app and the dashboard read active gardens from a live settings table, so onboarding a new AZC location is a data entry, not a code change: no new dropdowns, forms, or dashboard pages to build by hand as the program grows.",
+      "Dashboard: designed and directed development of a companion Looker Studio dashboard on the same database schema (participant demographics, activity trends, donations, and ecological metrics), built with the same scalability principle, so new sites and new metrics extend the existing pages rather than requiring new ones.",
+      "Authentication redesign: later re-architected how the app authenticates users, moving from per-user execution permissions to a single dedicated identity for all data operations, a change driven by a platform-level restriction discovered in Apps Script's hosting environment, solved with Google's OAuth redirect flow while preserving accurate per-user audit logging throughout the transition.",
+    ],
+    approachFigure: {
+      src: growingRootsArchitecture,
+      alt: "End-to-end architecture: paper records digitized into an automated Python pipeline, loaded into a structured Google Sheets database, read and written by a Google Apps Script web app, and visualized in a Looker Studio dashboard.",
+      caption: "End-to-end data system: paper records → automated pipeline → structured Google Sheets database → web app (real-time entry) → Looker Studio dashboard.",
+    },
+    impact: [
+      "Eliminated manual double-entry across two active locations: gardeners now enter data once, in the field, instead of transcribing paper records after the fact.",
+      "Gives Growing Roots reliable, decision-ready reporting for funders and program leadership for the first time, replacing ad hoc, after-the-fact data collection.",
+      "Designed to grow with the program: adding a new AZC garden requires no code changes to either the app or the dashboard, directly supporting the organisation's goal of opening new locations year over year.",
+    ],
+    delivered: [
+      "Automated Python pipeline consolidating historical multi-location records into a structured database",
+      "Six-tab relational Google Sheets database with protected ranges and automatic vs. gardener-entered field separation",
+      "Google Apps Script web app: gardener submission flow, offline queueing, coordinator planning and settings tools, role/location-based access control",
+      "Looker Studio impact dashboard: participant demographics, activity trends, donations, and ecological metrics",
+      "Bilingual (EN/NL) user guides for gardeners and coordinators",
+    ],
+    skills: ["Python", "Google Apps Script", "Google Sheets API", "OAuth 2.0", "Data Pipeline Design", "Looker Studio", "Data Modeling", "Stakeholder Management", "NGO Program Design"],
   },
   "prorail-predictive-monitoring": {
     slug: "prorail-predictive-monitoring",
