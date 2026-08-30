@@ -4,6 +4,7 @@ import sensingCluesMonthlyNdvi from "@/assets/projects/SensingClues/monthly_NDVI
 import sensingCluesFrpMap from "@/assets/projects/SensingClues/frp_map.png";
 import sensingCluesCustomRanking from "@/assets/projects/SensingClues/custom ranking.png";
 import growingRootsArchitecture from "@/assets/projects/GrowingRoots/architecture.svg";
+import ecfiArchitecture from "@/assets/projects/ECFI/architecture.svg";
 
 export interface CaseCard {
   slug: string;
@@ -14,10 +15,10 @@ export interface CaseCard {
 
 export const caseCards: CaseCard[] = [
   {
-    slug: "ing-ai-modernization",
-    title: "ING — AI-Assisted Modernization of Large-Scale Legacy Software",
-    description: "Banking · Generative AI · Software Modernization",
-    tags: ["Generative AI", "Software Modernization", "Banking"],
+    slug: "ecfi-community-foundation-workflow",
+    title: "ECFI — Community Foundation Data Workflow Automation",
+    description: "WordPress Plugin Development · Workflow Automation · Nonprofit Tech · Data Engineering",
+    tags: ["Workflow Automation", "Nonprofit Tech", "Data Engineering"],
   },
   {
     slug: "sensingclues-conservation-ai",
@@ -30,6 +31,12 @@ export const caseCards: CaseCard[] = [
     title: "Growing Roots — Data Pipeline, Web App & Impact Dashboard for AZC Community Gardens",
     description: "NGO Tech · Data Engineering · Full-Stack Development · Business Intelligence",
     tags: ["Data Engineering", "Full-Stack Development", "Business Intelligence"],
+  },
+  {
+    slug: "ing-ai-modernization",
+    title: "ING — AI-Assisted Modernization of Large-Scale Legacy Software",
+    description: "Banking · Generative AI · Software Modernization",
+    tags: ["Generative AI", "Software Modernization", "Banking"],
   },
   {
     slug: "prorail-predictive-monitoring",
@@ -64,38 +71,48 @@ export const caseCards: CaseCard[] = [
 ];
 
 export const caseDetails: Record<string, CaseData> = {
-  "ing-ai-modernization": {
-    slug: "ing-ai-modernization",
-    title: "ING — AI-Assisted Modernization of Large-Scale Legacy Software",
-    descriptor: "Banking · Generative AI · Software Modernization",
-    situation: "ING is modernizing long-lived, business-critical banking systems to support scalability, performance, and long-term maintainability. One large, internally developed application with more than 20 years of history comprised millions of lines of legacy PL/SQL code with limited documentation and no automated tests, making manual refactoring slow, costly, and risky.",
+  "ecfi-community-foundation-workflow": {
+    slug: "ecfi-community-foundation-workflow",
+    title: "ECFI — Community Foundation Data Workflow Automation",
+    descriptor: "WordPress Plugin Development · Workflow Automation · Nonprofit Tech · Data Engineering",
+    github: "https://github.com/Fan-shiyu/ecfi-cf-workflow",
+    situation: "The European Community Foundation Initiative (ECFI) maintains a public database and interactive map of nearly 1,000 community foundations across Europe. Before this project, keeping that data current meant the website administrator manually collecting updates from dozens of country level collaborators over email, merging everything into a master spreadsheet by hand, and re-uploading it to the website. A single update round took roughly three days of manual work. Collaborators typically submitted updates through a shared spreadsheet, with no way to trace who had changed what, and review and approval happened manually in that same spreadsheet rather than through any structured system. Adding a new data field meant a developer rebuilding parts of the system.",
     task: [
-      "Explore whether Generative AI and Large Language Models (LLMs) can safely support engineers in understanding complex legacy code",
-      "Translate legacy code into modern Java systems",
-      "Reduce manual refactoring effort while preserving business logic and correctness",
+      "Design and build a self-service data workflow that lets collaborators review and update their own community foundations directly, lets the website administrator approve changes with a single click, and removes the need for developer involvement in every future data collection round, without requiring any collaborator to create an account or learn a new tool.",
     ],
-    approach: [
-      "Designed and evaluated an AI-assisted code translation pipeline, working closely with ING engineers and academic supervisors",
-      "Structured prompt engineering with domain context and logical constraints",
-      "Evaluation of multiple commercial and open-source LLMs",
-      "A similarity-based retrieval strategy to select the most relevant code examples",
-      "Integration of domain models to guide syntactic and functional correctness",
-      "Rather than maximizing prompt size, the solution focused on example relevance, using code similarity to improve translation outcomes",
+    approach: [],
+    approachContent: [
+      { type: "heading", text: "Secure, no-login collaborator access" },
+      { type: "paragraph", text: "Each collaborator receives a personal, tokenised link instead of an account. Opening it takes them straight into either a spreadsheet style table view for reviewing many foundations at once, or a focused single record form for detailed editing, both built on one shared, extensible field registry so every field behaves consistently across both views." },
+      { type: "heading", text: "Automated review, approval, and merge" },
+      { type: "paragraph", text: "Every edit, whether submitted one row at a time or in bulk, lands in a single review queue. Approving a change writes it directly into the live WordPress database in one click, replacing what used to be a manual spreadsheet merge and re-upload." },
+      { type: "heading", text: "Self-extending data model" },
+      { type: "paragraph", text: "The administrator can add entirely new data fields (text, number, or dropdown) directly from the WordPress admin panel at any time, with zero developer involvement. New fields automatically appear in both collaborator views, the review workflow, and every export." },
+      { type: "heading", text: "Automated communication layer" },
+      { type: "paragraph", text: "Invitations are sent with each collaborator's personal link pre-filled, individually or in bulk. Collaborators automatically receive a confirmation of exactly what they submitted, and the administrator is automatically notified whenever new changes arrive for review." },
+      { type: "heading", text: "One-click reporting" },
+      { type: "paragraph", text: "A full, always current export of the entire database is available on demand as a formatted Excel file, alongside a ready-to-use mail merge export of collaborator contacts. This replaced a previous reliance on a static, one-time import file that never reflected live changes." },
     ],
+    approachFigure: {
+      src: ecfiArchitecture,
+      alt: "ECFI plugin architecture: collaborator access issues a tokenised link into table or form review interfaces, changes flow through automated review and merge into the live WordPress database, while self-extending custom fields, automated communication, and one-click reporting all connect to that same database for collaborators and the website admin.",
+      caption: "End-to-end workflow: collaborator token access, automated review and merge into the live WordPress database, then automated email and export outputs back to collaborators and the website administrator.",
+    },
     impact: [
-      "Increased translation quality by ~8% in test pass rate, improving functional correctness of generated Java code",
-      "Reduced manual refactoring effort by producing more accurate, context-aware translations",
-      "Demonstrated a scalable, controllable GenAI strategy for large legacy codebases",
-      "Delivered actionable guidance on where and how GenAI can be responsibly embedded in software engineering workflows",
-      "The work resulted in a peer-reviewed research publication, bridging academic research and real-world banking applications",
+      "Cut the website administrator's per-round update time from roughly three days of manual spreadsheet work to about three minutes of review and approval.",
+      "Gave nearly 30 country level collaborators direct, secure, self-service access to their own data for the first time, with zero training or account setup required.",
+      "Eliminated manual spreadsheet merging entirely. Every approved change now writes straight into the live database.",
+      "Made the platform self-extending, so the administrator can grow the dataset with new fields indefinitely without further development work.",
+      "Replaced an untraceable, shared spreadsheet based update process with a fully auditable one. Every submission, approval, and notification is automatically logged.",
     ],
     delivered: [
-      "AI-assisted PL/SQL → Java translation pipeline",
-      "Similarity-based example selection method",
-      "Quantitative evaluation framework",
-      "Practical recommendations for GenAI adoption in legacy modernization",
+      "WordPress plugin with tokenised collaborator access, table and form based review interfaces, and a shared field registry",
+      "Automated review, approval, and audit log system writing directly to the live database",
+      "Admin configurable custom fields with zero-code extensibility",
+      "Automated invitation and confirmation email system",
+      "On-demand Excel export tools for the full dataset and for collaborator mail merges",
     ],
-    skills: ["Generative AI", "Prompt Engineering", "Software Modernization", "Python", "PL/SQL", "Java"],
+    skills: ["WordPress Plugin Development", "PHP", "MySQL", "Workflow Automation", "ACF", "Data Migration", "Email Automation (SMTP/OAuth2)", "Nonprofit Technology"],
   },
   "sensingclues-conservation-ai": {
     slug: "sensingclues-conservation-ai",
@@ -205,6 +222,39 @@ export const caseDetails: Record<string, CaseData> = {
       "Bilingual (EN/NL) user guides for gardeners and coordinators",
     ],
     skills: ["Python", "Google Apps Script", "Google Sheets API", "OAuth 2.0", "Data Pipeline Design", "Looker Studio", "Data Modeling", "Stakeholder Management", "NGO Program Design"],
+  },
+  "ing-ai-modernization": {
+    slug: "ing-ai-modernization",
+    title: "ING — AI-Assisted Modernization of Large-Scale Legacy Software",
+    descriptor: "Banking · Generative AI · Software Modernization",
+    situation: "ING is modernizing long-lived, business-critical banking systems to support scalability, performance, and long-term maintainability. One large, internally developed application with more than 20 years of history comprised millions of lines of legacy PL/SQL code with limited documentation and no automated tests, making manual refactoring slow, costly, and risky.",
+    task: [
+      "Explore whether Generative AI and Large Language Models (LLMs) can safely support engineers in understanding complex legacy code",
+      "Translate legacy code into modern Java systems",
+      "Reduce manual refactoring effort while preserving business logic and correctness",
+    ],
+    approach: [
+      "Designed and evaluated an AI-assisted code translation pipeline, working closely with ING engineers and academic supervisors",
+      "Structured prompt engineering with domain context and logical constraints",
+      "Evaluation of multiple commercial and open-source LLMs",
+      "A similarity-based retrieval strategy to select the most relevant code examples",
+      "Integration of domain models to guide syntactic and functional correctness",
+      "Rather than maximizing prompt size, the solution focused on example relevance, using code similarity to improve translation outcomes",
+    ],
+    impact: [
+      "Increased translation quality by ~8% in test pass rate, improving functional correctness of generated Java code",
+      "Reduced manual refactoring effort by producing more accurate, context-aware translations",
+      "Demonstrated a scalable, controllable GenAI strategy for large legacy codebases",
+      "Delivered actionable guidance on where and how GenAI can be responsibly embedded in software engineering workflows",
+      "The work resulted in a peer-reviewed research publication, bridging academic research and real-world banking applications",
+    ],
+    delivered: [
+      "AI-assisted PL/SQL → Java translation pipeline",
+      "Similarity-based example selection method",
+      "Quantitative evaluation framework",
+      "Practical recommendations for GenAI adoption in legacy modernization",
+    ],
+    skills: ["Generative AI", "Prompt Engineering", "Software Modernization", "Python", "PL/SQL", "Java"],
   },
   "prorail-predictive-monitoring": {
     slug: "prorail-predictive-monitoring",
