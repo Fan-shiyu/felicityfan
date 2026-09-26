@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import { Seo } from "@/components/Seo";
 import { DEFAULT_SITE_DESCRIPTION } from "@/lib/site";
 import pyladiesWorkshop from "@/assets/pyladies-workshop.avif";
@@ -19,6 +20,8 @@ export interface Activity {
   layout?: "horizontal" | "vertical";
   /** When true, the image is top-aligned with the description text (title sits above as a header) */
   alignImageWithContent?: boolean;
+  /** Link to a related GitHub repository, shown as a "View repository" link */
+  repoUrl?: string;
 }
 
 const imgSrc = (image: ActivityImage) => (typeof image === "string" ? image : image.src);
@@ -32,6 +35,7 @@ export const activities: Activity[] = [
     images: [gitWorkshop],
     layout: "horizontal",
     alignImageWithContent: true,
+    repoUrl: "https://github.com/Fan-shiyu/git-advanced-workshop-exercises",
   },
   {
     id: "pyladies-amsterdam",
@@ -40,6 +44,7 @@ export const activities: Activity[] = [
     images: [pyladiesWorkshop],
     layout: "horizontal",
     alignImageWithContent: true,
+    repoUrl: "https://github.com/Fan-shiyu/building-with-coding-agents-jul2026",
   },
   {
     id: "hack4her",
@@ -127,6 +132,18 @@ const ActivityImages = ({ activity }: { activity: Activity }) =>
     </div>
   );
 
+const RepoLink = ({ url }: { url: string }) => (
+  <a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group mt-4 inline-flex items-center gap-2 text-sm font-medium tracking-wide"
+  >
+    View repository
+    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+  </a>
+);
+
 interface ActivityBlockProps {
   activity: Activity;
   reverse?: boolean;
@@ -161,6 +178,7 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
           <p className="text-muted-foreground leading-relaxed">
             {activity.description}
           </p>
+          {activity.repoUrl && <RepoLink url={activity.repoUrl} />}
         </div>
       </article>
     );
@@ -183,6 +201,7 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
           <p className="text-muted-foreground leading-relaxed">
             {activity.description}
           </p>
+          {activity.repoUrl && <RepoLink url={activity.repoUrl} />}
         </div>
       </article>
     );
@@ -224,6 +243,7 @@ const ActivityBlock = ({ activity, reverse = false }: ActivityBlockProps) => {
         <p className="text-muted-foreground leading-relaxed">
           {activity.description}
         </p>
+        {activity.repoUrl && <RepoLink url={activity.repoUrl} />}
       </div>
     </article>
   );
