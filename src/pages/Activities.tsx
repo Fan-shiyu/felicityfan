@@ -7,6 +7,7 @@ import toastmastersTeam from "@/assets/toastmasters-team.png";
 import pydataModerating from "@/assets/pydata-moderating.png";
 import pydataStage from "@/assets/pydata-stage.png";
 import tilburgTalk from "@/assets/tilburg-talk.png";
+import gitWorkshop from "@/assets/git-workshop.png";
 
 export type ActivityImage = string | { src: string; /** Tailwind object-position class, e.g. "object-top" */ position?: string };
 
@@ -24,6 +25,14 @@ const imgSrc = (image: ActivityImage) => (typeof image === "string" ? image : im
 const imgPosition = (image: ActivityImage) => (typeof image === "string" ? "" : image.position ?? "");
 
 export const activities: Activity[] = [
+  {
+    id: "git-workshop",
+    title: "CorrelAid Data4Good — Git Advanced Workshop Co-Facilitator",
+    description: "Co-facilitated \"Git Advanced: Collaborative Working with Git and GitHub,\" a workshop for CorrelAid's Data4Good community. I led the hands-on portion of the session, designing and building a self-contained exercise repository that walked participants through four practical scenarios: resolving merge conflicts, setting up pre-commit hooks, opening and reviewing a pull request, and undoing mistakes with reset and reflog. Each exercise was self-guided with its own README, letting participants work at their own pace while building toward a real, working Git workflow. Designing hands-on materials that turn abstract Git concepts into something practitioners can immediately apply is work I find especially rewarding.",
+    images: [gitWorkshop],
+    layout: "horizontal",
+    alignImageWithContent: true,
+  },
   {
     id: "pyladies-amsterdam",
     title: "PyLadies Amsterdam 2026 — Workshop Design & Delivery",
