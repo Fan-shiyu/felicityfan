@@ -26,7 +26,7 @@ const Index = () => {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Felicity Fan",
-    jobTitle: "AI & Data Consultant",
+    jobTitle: "AI Automation Specialist",
     url: siteUrl,
     sameAs: [
       "https://linkedin.com/in/felicityfan",
@@ -63,16 +63,16 @@ const Index = () => {
             {/* Text Content */}
             <div className="flex-1 text-center md:text-left">
               <p className="text-muted-foreground text-sm tracking-widest uppercase mb-4 fade-up">
-                AI & Data Consultant
+                AI Automation Specialist
               </p>
 
               <h1 className="fade-up delay-100 text-balance">Felicity Fan</h1>
 
               <p className="mt-6 text-lg text-muted-foreground max-w-2xl fade-up delay-200 leading-relaxed">
-                I am an AI and data consultant focused on solutions that drive digital transformation—turning complex business challenges into clear, actionable insight.
+                I am an AI automation specialist focused on building intelligent workflows and agents that drive digital transformation, turning manual, repetitive processes into systems that run themselves.
               </p>
               <p className="mt-4 text-lg text-muted-foreground max-w-2xl fade-up delay-200 leading-relaxed">
-                My work spans scalable machine learning pipelines, advanced analytics, AI agents and LLMs, and real-time interactive dashboards, with a consistent emphasis on measurable impact on operations and customer experience.
+                My work spans workflow automation, AI agent design, and LLM-powered tooling, with a consistent emphasis on measurable gains in productivity and operational efficiency across the organization.
               </p>
               
               <div className="mt-10 flex flex-wrap justify-center md:justify-start gap-6 fade-up delay-300">
